@@ -1,0 +1,18 @@
+User
+    name Text
+    email Text
+    password Text Maybe
+    gender Text
+    tribe TribeId
+    facebook_id Text Maybe defaul=NULL
+    accepted_terms Bool default=false
+    UniqueEmail email
+    deriving Typeable
+
+Tribe
+    title Text
+    daysOfWeek Text
+    latitude Double
+    longitude Double
+    timezone: Text
+    UniqueTitle title
