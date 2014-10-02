@@ -20,6 +20,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision "shell", inline: <<SCRIPT
   apt-get update
+  apt-get upgrade
   apt-get install -y postgres-9.3 libpq-dev haskell-platform
 SCRIPT
 
