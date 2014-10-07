@@ -1,1 +1,5 @@
 / HomeR GET
+
+/tribes TribesR GET
+
+/locations LocationsR GET

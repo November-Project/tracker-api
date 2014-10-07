@@ -6,9 +6,25 @@ import Database.Persist.Quasi
 import Data.Typeable (Typeable)
 import Prelude
 
--- You can define all of your database entities in the entities file.
--- You can find more information on persistent and how to declare entities
--- at:
--- http://www.yesodweb.com/book/persistent/
 share [mkPersist sqlSettings, mkMigrate "migrateAll"]
     $(persistFileWith lowerCaseSettings "config/models")
+
+instance ToJSON (Entity Tribe) where
+  toJSON (Entity tid t) = object
+    [ "id"          .= tid
+    , "title"       .= tribeTitle t
+    , "daysOfWeek"  .= tribeDaysOfWeek t
+    , "latitude"    .= tribeLatitude t
+    , "longitude"   .= tribeLongitude t
+    , "timezone"    .= tribeTimezone t
+    ]
+
+instance ToJSON (Entity Location) where
+  toJSON (Entity lid l) = object
+    [ "id"        .= lid
+    , "title"     .= locationTitle l
+    , "latitude"  .= locationLatitude l
+    , "longitude" .= locationLongitude l
+    , "standard"  .= locationStandard l
+    , "tribe"     .= locationTribe l
+    ]

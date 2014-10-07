@@ -11,8 +11,16 @@ User
 
 Tribe
     title Text
-    daysOfWeek Text
+    daysOfWeek [Int]
     latitude Double
     longitude Double
-    timezone: Text
+    timezone Text
     UniqueTitle title
+
+Location
+    title Text
+    latitude Double
+    longitude Double
+    standard Bool default=false
+    tribe TribeId
+    UniqueTitleTribe title tribe

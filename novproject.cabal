@@ -19,6 +19,8 @@ library
                      Settings
                      Settings.Development
                      Handler.Home
+                     Handler.Tribes
+                     Handler.Locations
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
