@@ -28,3 +28,17 @@ instance ToJSON (Entity Location) where
     , "standard"  .= locationStandard l
     , "tribe"     .= locationTribe l
     ]
+
+instance ToJSON (Entity Workout) where
+  toJSON (Entity wid w) = object
+    [ "id"              .= wid
+    , "title"           .= workoutTitle w
+    , "description"     .= workoutDescription w
+    , "reps"            .= workoutReps w
+    , "time"            .= workoutTime w
+    , "standard"        .= workoutStandard w
+    , "allow_user_reps" .= workoutAllowUserReps w
+    , "allow_user_time" .= workoutAllowUserTime w
+    , "tribe_id"        .= workoutTribe w
+    ]
+    

@@ -3,3 +3,5 @@
 /tribes TribesR GET
 
 /locations LocationsR GET
+
+/workouts WorkoutsR GET

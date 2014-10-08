@@ -24,3 +24,15 @@ Location
     standard Bool default=false
     tribe TribeId
     UniqueTitleTribe title tribe
+
+Workout
+    title Text
+    description Text Maybe default=NULL
+    reps Int Maybe default=NULL
+    time Int Maybe default=NULL
+    standard Bool default=false
+    allowUserReps Bool
+    allowUserTime Bool
+    tribe TribeId
+
+

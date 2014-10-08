@@ -21,6 +21,7 @@ library
                      Handler.Home
                      Handler.Tribes
                      Handler.Locations
+                     Handler.Workouts
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
