@@ -5,6 +5,8 @@ import Data.Text (Text)
 import Database.Persist.Quasi
 import Data.Typeable (Typeable)
 import Prelude
+import Control.Applicative
+import Control.Monad
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"]
     $(persistFileWith lowerCaseSettings "config/models")
@@ -28,6 +30,16 @@ instance ToJSON (Entity Location) where
     , "standard"  .= locationStandard l
     , "tribe"     .= locationTribe l
     ]
+
+instance FromJSON Location where
+  parseJSON (Object o) = Location
+    <$> o .: "title"
+    <*> o .: "latitude"
+    <*> o .: "longitude"
+    <*> o .: "standard"
+    <*> o .: "tribe_id"
+  
+  parseJSON _ = mzero
 
 instance ToJSON (Entity Workout) where
   toJSON (Entity wid w) = object

@@ -27,9 +27,9 @@ Location
 
 Workout
     title Text
-    description Text Maybe default=NULL
-    reps Int Maybe default=NULL
-    time Int Maybe default=NULL
+    description Text default=''
+    reps Int default=0
+    time Int default=0
     standard Bool default=false
     allowUserReps Bool
     allowUserTime Bool

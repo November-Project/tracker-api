@@ -2,6 +2,6 @@
 
 /tribes TribesR GET
 
-/locations LocationsR GET
+/locations LocationsR GET POST
 
 /workouts WorkoutsR GET
