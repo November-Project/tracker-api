@@ -5,7 +5,7 @@ import Import
 
 getWorkoutsR :: Handler Value
 getWorkoutsR = do
-  workouts <- runDB $ selectList [] [] :: Handler [Entity Tribe]
+  workouts <- runDB $ selectList [] [] :: Handler [Entity Workout]
   return $ object ["workouts" .= workouts]
 
 postWorkoutsR :: Handler ()
