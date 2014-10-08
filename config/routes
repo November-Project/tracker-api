@@ -4,4 +4,4 @@
 
 /locations LocationsR GET POST
 
-/workouts WorkoutsR GET
+/workouts WorkoutsR GET POST

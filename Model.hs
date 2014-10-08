@@ -54,3 +54,16 @@ instance ToJSON (Entity Workout) where
     , "tribe_id"        .= workoutTribe w
     ]
     
+instance FromJSON Workout where
+  parseJSON (Object o) = Workout
+    <$> o .: "title"
+    <*> o .: "description"
+    <*> o .: "reps"
+    <*> o .: "time"
+    <*> o .: "standard"
+    <*> o .: "allow_user_reps"
+    <*> o .: "allow_user_time"
+    <*> o .: "tribe_id"
+  
+  parseJSON _ = mzero
+

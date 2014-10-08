@@ -8,3 +8,10 @@ getWorkoutsR = do
   workouts <- runDB $ selectList [] [] :: Handler [Entity Tribe]
   return $ object ["workouts" .= workouts]
 
+postWorkoutsR :: Handler ()
+postWorkoutsR = do
+  workout <- requireJsonBody :: Handler Workout
+  _       <- runDB $ insert workout
+
+  sendResponseStatus status201 ("CREATED" :: Text)
+
