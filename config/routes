@@ -5,3 +5,4 @@
 /locations LocationsR GET POST
 
 /workouts WorkoutsR GET POST
+/workouts/#WorkoutId WorkoutR GET PUT

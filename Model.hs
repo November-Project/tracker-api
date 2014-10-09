@@ -53,7 +53,7 @@ instance ToJSON (Entity Workout) where
     , "allow_user_time" .= workoutAllowUserTime w
     , "tribe_id"        .= workoutTribe w
     ]
-    
+
 instance FromJSON Workout where
   parseJSON (Object o) = Workout
     <$> o .: "title"
