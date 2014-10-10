@@ -4,6 +4,7 @@ import Yesod
 import Data.Text (Text)
 import Database.Persist.Quasi
 import Data.Typeable (Typeable)
+import Data.Time
 import Prelude
 import Control.Applicative
 import Control.Monad
@@ -64,6 +65,76 @@ instance FromJSON Workout where
     <*> o .: "allow_user_reps"
     <*> o .: "allow_user_time"
     <*> o .: "tribe_id"
+  
+  parseJSON _ = mzero
+
+instance ToJSON (Entity Schedule) where
+  toJSON (Entity sid s) = object
+    [ "id"          .= sid
+    , "time"        .= scheduleTime s
+    , "day_of_week" .= scheduleDayOfWeek s
+    , "tribe_id"    .= scheduleTribe s
+    , "location_id" .= scheduleLocation s
+    ]
+
+instance FromJSON Schedule where
+  parseJSON (Object o) = Schedule
+    <$> o .: "time"
+    <*> o .: "day_of_week"
+    <*> o .: "tribe_id"
+    <*> o .: "location_id"
+  
+  parseJSON _ = mzero
+
+instance ToJSON (Entity Event) where
+  toJSON (Entity eid e) = object
+    [ "id"          .= eid
+    , "date"        .= eventDate e
+    , "tribe_id"    .= eventTribe e
+    , "location_id" .= eventLocation e
+    , "workout_id"  .= eventWorkout e
+    ]
+
+instance FromJSON Event where
+  parseJSON (Object o) = Event
+    <$> o .: "date"
+    <*> o .: "tribe_id"
+    <*> o .: "location_id"
+    <*> o .: "workout_id"
+  
+  parseJSON _ = mzero
+
+instance ToJSON (Entity Verbal) where
+  toJSON (Entity vid v) = object
+    [ "id"          .= vid
+    , "user_id"     .= verbalUser v
+    , "event_id"    .= verbalEvent v
+    ]
+
+instance FromJSON Verbal where
+  parseJSON (Object o) = Verbal
+    <$> o .: "user_id"
+    <*> o .: "event_id"
+  
+  parseJSON _ = mzero
+
+instance ToJSON (Entity Result) where
+  toJSON (Entity rid r) = object
+    [ "id"        .= rid
+    , "user_id"   .= resultUser r
+    , "event_id"  .= resultEvent r
+    , "reps"      .= resultReps r
+    , "time"      .= resultTime r
+    , "pr"        .= resultPr r
+    ]
+
+instance FromJSON Result where
+  parseJSON (Object o) = Result
+    <$> o .: "user_id"
+    <*> o .: "event_id"
+    <*> o .: "reps"
+    <*> o .: "time"
+    <*> o .: "pr"
   
   parseJSON _ = mzero
 

@@ -1,8 +1,20 @@
 / HomeR GET
 
-/tribes TribesR GET
+/tribes                                         TribesR     GET
 
-/locations LocationsR GET POST
+/#TribeId/locations                             LocationsR  GET POST
 
-/workouts WorkoutsR GET POST
-/workouts/#WorkoutId WorkoutR GET PUT
+/#TribeId/workouts                              WorkoutsR   GET POST
+/#TribeId/workouts/#WorkoutId                   WorkoutR    GET PUT
+
+/#TribeId/schedules                             SchedulesR  GET
+/#TribeId/schedules/#ScheduleId                 ScheduleR   GET PUT
+
+/#TribeId/events                                EventsR     GET POST
+/#TribeId/events/#EventId                       EventR      GET PUT
+
+/#TribeId/events/#EventId/verbals               VerbalsR    GET POST
+/#TribeId/events/#EventId/verbals/#VerbalId     VerbalR     DELETE
+
+/#TribeId/events/#EventId/results               ResultsR    GET POST
+/#TribeId/events/#EventId/results/#ResultId     ResultR     GET PUT

@@ -18,11 +18,20 @@ library
                      Model
                      Settings
                      Settings.Development
+                     Helpers.Request
                      Handler.Home
                      Handler.Tribes
                      Handler.Locations
                      Handler.Workouts
                      Handler.Workout
+                     Handler.Schedules
+                     Handler.Schedule
+                     Handler.Events
+                     Handler.Event
+                     Handler.Verbals
+                     Handler.Verbal
+                     Handler.Results
+                     Handler.Result
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
@@ -70,7 +79,8 @@ library
                  , monad-logger                  >= 0.3        && < 0.4
                  , fast-logger                   >= 2.2        && < 2.3
                  , wai-logger                    >= 2.2        && < 2.3
-
+                 , time                          >= 1.4        && < 1.5
+                 , esqueleto                     >= 2.1        && < 2.2
     -- see https://github.com/yesodweb/yesod/issues/814
     if !os(windows)
         build-depends: unix

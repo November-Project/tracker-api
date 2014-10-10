@@ -1,4 +1,3 @@
-{-# LANGUAGE TupleSections, OverloadedStrings #-}
 module Handler.Tribes where
 
 import Import

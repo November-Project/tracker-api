@@ -4,9 +4,9 @@ User
     password Text Maybe
     gender Text
     tribe TribeId
-    facebook_id Text Maybe defaul=NULL
-    accepted_terms Bool default=false
-    UniqueEmail email
+    facebookId Text Maybe
+    acceptedTerms Bool
+    UniqueUserEmail email
     deriving Typeable
 
 Tribe
@@ -15,24 +15,50 @@ Tribe
     latitude Double
     longitude Double
     timezone Text
-    UniqueTitle title
+    UniqueTribeTitle title
 
 Location
     title Text
     latitude Double
     longitude Double
-    standard Bool default=false
+    standard Bool
     tribe TribeId
-    UniqueTitleTribe title tribe
+    UniqueLocationTitleTribe title tribe
 
 Workout
     title Text
-    description Text default=''
-    reps Int default=0
-    time Int default=0
-    standard Bool default=false
+    description Text
+    reps Int
+    time Int
+    standard Bool
     allowUserReps Bool
     allowUserTime Bool
     tribe TribeId
+    UniqueWorkoutTitleTribe title tribe
 
+Schedule
+    time Text Maybe
+    dayOfWeek Int
+    tribe TribeId
+    location LocationId Maybe
+    UniqueScheduleDayTribe dayOfWeek tribe
 
+Event
+    date UTCTime
+    tribe TribeId
+    location LocationId
+    workout WorkoutId
+    UniqueEventDateTribe date tribe
+
+Verbal
+    user UserId
+    event EventId
+    UniqueVerbalUserEvent user event
+
+Result
+    user UserId
+    event EventId
+    reps Int
+    time Int
+    pr Bool
+    UniqueResultUserEvent user event

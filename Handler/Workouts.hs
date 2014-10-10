@@ -1,17 +1,15 @@
-{-# LANGUAGE TupleSections, OverloadedStrings #-}
 module Handler.Workouts where
 
 import Import
 
-getWorkoutsR :: Handler Value
-getWorkoutsR = do
-  workouts <- runDB $ selectList [] [] :: Handler [Entity Workout]
+getWorkoutsR :: TribeId -> Handler Value
+getWorkoutsR tid = do
+  workouts <- runDB $ selectList [WorkoutTribe ==. tid] [] :: Handler [Entity Workout]
   return $ object ["workouts" .= workouts]
 
-postWorkoutsR :: Handler ()
-postWorkoutsR = do
+postWorkoutsR :: TribeId -> Handler ()
+postWorkoutsR _ = do
   workout <- requireJsonBody :: Handler Workout
   _       <- runDB $ insert workout
-
   sendResponseStatus status201 ("CREATED" :: Text)
 

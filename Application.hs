@@ -29,6 +29,14 @@ import Handler.Tribes
 import Handler.Locations
 import Handler.Workouts
 import Handler.Workout
+import Handler.Schedules
+import Handler.Schedule
+import Handler.Events
+import Handler.Event
+import Handler.Verbals
+import Handler.Verbal
+import Handler.Results
+import Handler.Result
 
 -- This line actually creates our YesodDispatch instance. It is the second half
 -- of the call to mkYesodData which occurs in Foundation.hs. Please see the

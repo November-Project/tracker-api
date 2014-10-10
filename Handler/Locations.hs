@@ -2,13 +2,13 @@ module Handler.Locations where
 
 import Import
 
-getLocationsR :: Handler Value
-getLocationsR = do
-  locations <- runDB $ selectList [] [] :: Handler [Entity Location]
+getLocationsR :: TribeId -> Handler Value
+getLocationsR tid = do
+  locations <- runDB $ selectList [LocationTribe ==. tid] [] :: Handler [Entity Location]
   return $ object ["locations" .= locations]
 
-postLocationsR :: Handler ()
-postLocationsR = do
+postLocationsR :: TribeId -> Handler ()
+postLocationsR _ = do
   location <- requireJsonBody :: Handler Location
   _        <- runDB $ insert location
 
