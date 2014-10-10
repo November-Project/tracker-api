@@ -46,8 +46,8 @@ Schedule
 Event
     date UTCTime
     tribe TribeId
-    location LocationId
-    workout WorkoutId
+    location LocationId Maybe
+    workout WorkoutId Maybe
     UniqueEventDateTribe date tribe
 
 Verbal

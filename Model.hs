@@ -5,6 +5,7 @@ import Data.Text (Text)
 import Database.Persist.Quasi
 import Data.Typeable (Typeable)
 import Data.Time
+import Data.Aeson ((.:?))
 import Prelude
 import Control.Applicative
 import Control.Monad
@@ -99,16 +100,35 @@ instance FromJSON Event where
   parseJSON (Object o) = Event
     <$> o .: "date"
     <*> o .: "tribe_id"
-    <*> o .: "location_id"
-    <*> o .: "workout_id"
+    <*> o .:? "location_id"
+    <*> o .:? "workout_id"
   
   parseJSON _ = mzero
 
-instance ToJSON (Entity Verbal) where
-  toJSON (Entity vid v) = object
-    [ "id"          .= vid
-    , "user_id"     .= verbalUser v
-    , "event_id"    .= verbalEvent v
+instance ToJSON (Entity Event, Maybe (Entity Workout), Maybe (Entity Location)) where
+  toJSON (Entity eid e, w, l) = object
+    [ "id"        .= eid
+    , "date"      .= eventDate e
+    , "workout"   .= toJSON w
+    , "location"  .= toJSON l
+    ]
+
+instance ToJSON ((Entity Event, Maybe (Entity Workout), Maybe (Entity Location)), [(Entity Verbal, Entity User)], [(Entity Result, Entity User)]) where
+  toJSON ((Entity eid e, w, l), v, r) = object
+    [ "id"        .= eid
+    , "date"      .= eventDate e
+    , "workout"   .= toJSON w
+    , "location"  .= toJSON l
+    , "verbals"   .= toJSON v
+    , "results"   .= toJSON r
+    ]
+
+instance ToJSON (Entity Verbal, Entity User) where
+  toJSON (Entity vid v, Entity uid u) = object
+    [ "id"        .= vid
+    , "user_id"   .= uid
+    , "user_name" .= userName u
+    , "event_id"  .= verbalEvent v
     ]
 
 instance FromJSON Verbal where
@@ -118,10 +138,11 @@ instance FromJSON Verbal where
   
   parseJSON _ = mzero
 
-instance ToJSON (Entity Result) where
-  toJSON (Entity rid r) = object
+instance ToJSON (Entity Result, Entity User) where
+  toJSON (Entity rid r, Entity uid u) = object
     [ "id"        .= rid
-    , "user_id"   .= resultUser r
+    , "user_id"   .= uid
+    , "user_name" .= userName u
     , "event_id"  .= resultEvent r
     , "reps"      .= resultReps r
     , "time"      .= resultTime r

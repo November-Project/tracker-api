@@ -13,8 +13,8 @@
 /#TribeId/events                                EventsR     GET POST
 /#TribeId/events/#EventId                       EventR      GET PUT
 
-/#TribeId/events/#EventId/verbals               VerbalsR    GET POST
+/#TribeId/events/#EventId/verbals               VerbalsR    POST
 /#TribeId/events/#EventId/verbals/#VerbalId     VerbalR     DELETE
 
-/#TribeId/events/#EventId/results               ResultsR    GET POST
-/#TribeId/events/#EventId/results/#ResultId     ResultR     GET PUT
+/#TribeId/events/#EventId/results               ResultsR    POST
+/#TribeId/events/#EventId/results/#ResultId     ResultR     PUT
