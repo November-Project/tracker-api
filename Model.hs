@@ -17,7 +17,6 @@ instance ToJSON (Entity Tribe) where
   toJSON (Entity tid t) = object
     [ "id"          .= tid
     , "title"       .= tribeTitle t
-    , "daysOfWeek"  .= tribeDaysOfWeek t
     , "latitude"    .= tribeLatitude t
     , "longitude"   .= tribeLongitude t
     , "timezone"    .= tribeTimezone t

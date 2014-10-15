@@ -1,4 +1,4 @@
-User
+User sql=users
     name Text
     email Text
     password Text Maybe
@@ -9,15 +9,14 @@ User
     UniqueUserEmail email
     deriving Typeable
 
-Tribe
+Tribe sql=tribes
     title Text
-    daysOfWeek [Int]
     latitude Double
     longitude Double
     timezone Text
     UniqueTribeTitle title
 
-Location
+Location sql=locations
     title Text
     latitude Double
     longitude Double
@@ -25,7 +24,7 @@ Location
     tribe TribeId
     UniqueLocationTitleTribe title tribe
 
-Workout
+Workout sql=workouts
     title Text
     description Text
     reps Int
@@ -36,26 +35,26 @@ Workout
     tribe TribeId
     UniqueWorkoutTitleTribe title tribe
 
-Schedule
+Schedule sql=schedules
     time Text Maybe
     dayOfWeek Int
     tribe TribeId
     location LocationId Maybe
     UniqueScheduleDayTribe dayOfWeek tribe
 
-Event
+Event sql=events
     date UTCTime
     tribe TribeId
     location LocationId Maybe
     workout WorkoutId Maybe
     UniqueEventDateTribe date tribe
 
-Verbal
+Verbal sql=verbals
     user UserId
     event EventId
     UniqueVerbalUserEvent user event
 
-Result
+Result sql=requests
     user UserId
     event EventId
     reps Int
