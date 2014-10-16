@@ -19,6 +19,7 @@ library
                      Settings
                      Settings.Development
                      Helpers.Request
+                     Handler.All
                      Handler.Home
                      Handler.Tribes
                      Handler.Locations
