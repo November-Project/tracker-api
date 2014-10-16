@@ -33,6 +33,10 @@ library
                      Handler.Verbal
                      Handler.Results
                      Handler.Result
+                     Type.EventModel
+                     Type.EventFullModel
+                     Type.VerbalUser
+                     Type.ResultUser
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
@@ -82,6 +86,8 @@ library
                  , wai-logger                    >= 2.2        && < 2.3
                  , time                          >= 1.4        && < 1.5
                  , esqueleto                     >= 2.1        && < 2.2
+                 , unordered-containers          >= 0.2.4      && < 0.2.5
+
     -- see https://github.com/yesodweb/yesod/issues/814
     if !os(windows)
         build-depends: unix

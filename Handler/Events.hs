@@ -2,10 +2,11 @@ module Handler.Events where
 
 import Import hiding ((==.))
 import Database.Esqueleto hiding (Value)
+import Type.EventModel
 
 getEventsR :: TribeId -> Handler Value
 getEventsR tid = do
-  events <- runDB findEvents
+  events <- runDB findEvents :: Handler [EventModel]
   return $ object ["events" .= events]
   where
     findEvents =

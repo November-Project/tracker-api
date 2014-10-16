@@ -2,16 +2,20 @@ module Handler.Event where
 
 import Import hiding ((==.))
 import Database.Esqueleto hiding (Value)
+import Type.EventModel
+import Type.EventFullModel
+import Type.VerbalUser
+import Type.ResultUser
 
 getEventR :: TribeId -> EventId -> Handler Value
 getEventR _ eid = do
-  event <- runDB $ findEvent
+  event <- runDB findEvent :: Handler [EventModel]
   case event of
     [] -> do sendResponseStatus status404 ("NOT FOUND" :: Text)
     (e:_) -> do
-      v <- runDB getEventVerbals
-      r <- runDB getEventResults
-      return $ object ["event" .= (e, v, r)]
+      v <- runDB getEventVerbals :: Handler [VerbalUser]
+      r <- runDB getEventResults :: Handler [ResultUser]
+      return $ object ["event" .= ((e, v, r) :: EventFullModel)]
   where
     findEvent =
       select $
