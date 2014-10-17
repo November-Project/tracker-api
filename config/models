@@ -6,8 +6,14 @@ User sql=users
     tribe TribeId
     facebookId Text Maybe
     acceptedTerms Bool
+    verifyKey Text Maybe
     UniqueUserEmail email
-    deriving Typeable
+
+Session sql=sessions
+    user UserId
+    token Text
+    deviceInfo Text Maybe
+    UniqueSessionToken token
 
 Tribe sql=tribes
     title Text
