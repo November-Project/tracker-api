@@ -29,7 +29,7 @@ requireTribeAdmin tid = do
   token <- lookupUtf8Header "Token" `orElse` notAuthenticated
   (Entity _ s) <- runDB (getBy (UniqueSessionToken token)) `orElse` permissionDenied ""
   u <- runDB (get (sessionUser s)) `orElse` permissionDenied ""
-  unless (userTribeAdmin u == Just tid) $ permissionDenied ""
+  unless (userTribeAdmin u == Just tid || userIsAdmin u == Just True) $ permissionDenied ""
 
 orElse :: (Handler (Maybe a)) -> Handler a -> Handler a
 a `orElse` f = do

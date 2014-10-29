@@ -7,6 +7,7 @@ User sql=users
     facebookId Text Maybe
     acceptedTerms Bool
     verifyKey Text Maybe
+    forgotToken Text Maybe
     isAdmin Bool Maybe
     tribeAdmin TribeId Maybe
     UniqueUserEmail email
