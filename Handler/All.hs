@@ -12,6 +12,7 @@ module Handler.All
   , module Handler.Verbal
   , module Handler.Results
   , module Handler.Result
+  , module Handler.Users
   ) where
 
 import Handler.Home
@@ -27,4 +28,5 @@ import Handler.Verbals
 import Handler.Verbal
 import Handler.Results
 import Handler.Result
+import Handler.Users
 

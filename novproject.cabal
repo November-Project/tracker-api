@@ -33,6 +33,7 @@ library
                      Handler.Verbal
                      Handler.Results
                      Handler.Result
+                     Handler.Users
                      Type.EventModel
                      Type.EventFullModel
                      Type.VerbalUser

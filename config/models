@@ -8,7 +8,7 @@ User sql=users
     acceptedTerms Bool
     verifyKey Text Maybe
     forgotToken Text Maybe
-    isAdmin Bool Maybe
+    isAdmin Bool
     tribeAdmin TribeId Maybe
     UniqueUserEmail email
 

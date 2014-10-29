@@ -2,6 +2,8 @@
 
 /tribes                                         TribesR     GET
 
+/users                                          UsersR      POST
+
 /#TribeId/locations                             LocationsR  GET POST
 
 /#TribeId/workouts                              WorkoutsR   GET POST
