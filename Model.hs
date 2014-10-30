@@ -21,7 +21,8 @@ instance FromJSON User where
     <*> o .: "tribe_id"
     <*> o .:? "facebook_id"
     <*> o .: "accepted_terms"
-    <*> pure (Just "")
+    <*> pure Nothing
+    <*> pure False
     <*> pure Nothing
     <*> pure False
     <*> pure Nothing

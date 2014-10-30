@@ -20,6 +20,7 @@ import Network.HTTP.Types as Import
     , status400
     , status403
     , status404
+    , status500
     )
 
 #if __GLASGOW_HASKELL__ >= 704

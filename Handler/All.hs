@@ -13,6 +13,9 @@ module Handler.All
   , module Handler.Results
   , module Handler.Result
   , module Handler.Users
+  , module Handler.Verify
+  , module Handler.FacebookSessions
+  , module Handler.EmailSessions
   ) where
 
 import Handler.Home
@@ -29,4 +32,7 @@ import Handler.Verbal
 import Handler.Results
 import Handler.Result
 import Handler.Users
+import Handler.Verify
+import Handler.FacebookSessions
+import Handler.EmailSessions
 

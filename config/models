@@ -4,9 +4,10 @@ User sql=users
     password Text Maybe
     gender Text
     tribe TribeId
-    facebookId Text Maybe
+    facebookId Int Maybe
     acceptedTerms Bool
     verifyKey Text Maybe
+    isVerified Bool default=false
     forgotToken Text Maybe
     isAdmin Bool
     tribeAdmin TribeId Maybe
