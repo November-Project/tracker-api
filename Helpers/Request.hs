@@ -1,4 +1,4 @@
-module Helpers.Request (allowCrossOrigin, requireTribeAdmin) where
+module Helpers.Request (allowCrossOrigin, requireSession, requireUserSession, requireTribeAdmin) where
 
 import Import
 import Network.HTTP.Types (HeaderName)
@@ -23,6 +23,25 @@ allowCrossOrigin = do
 
     addHeader "Access-Control-Allow-Methods" "POST, GET, OPTIONS"
     addHeader "Access-Control-Allow-Credentials" "true"
+
+requireSession :: Handler ()
+requireSession = do
+  ms <- lookupUtf8Header "SessionToken"
+  maybe unauthorized (\s -> do
+    _ <- runDB $ getBy404 $ UniqueSessionToken s
+    return ()) ms
+  
+requireUserSession :: UserId -> Handler ()
+requireUserSession uid = do
+  ms <- lookupUtf8Header "SessionToken"
+  maybe unauthorized (\s -> do
+    Entity _ x <- runDB $ getBy404 $ UniqueSessionToken s
+    if not $ sessionUser x == uid
+      then unauthorized
+      else return ()) ms
+
+unauthorized :: Handler ()
+unauthorized = sendResponseStatus status401 ()
 
 requireTribeAdmin :: TribeId -> Handler ()
 requireTribeAdmin tid = do
