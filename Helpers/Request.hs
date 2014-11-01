@@ -26,28 +26,21 @@ allowCrossOrigin = do
 
 requireSession :: Handler ()
 requireSession = do
-  ms <- lookupUtf8Header "SessionToken"
-  maybe unauthorized (\s -> do
-    _ <- runDB $ getBy404 $ UniqueSessionToken s
-    return ()) ms
+  t <- lookupUtf8Header "SessionToken" `orElse` notAuthenticated
+  _ <- (runDB $ getBy $ UniqueSessionToken t) `orElse` notAuthenticated
+  return ()
   
 requireUserSession :: UserId -> Handler ()
 requireUserSession uid = do
-  ms <- lookupUtf8Header "SessionToken"
-  maybe unauthorized (\s -> do
-    Entity _ x <- runDB $ getBy404 $ UniqueSessionToken s
-    if not $ sessionUser x == uid
-      then unauthorized
-      else return ()) ms
-
-unauthorized :: Handler ()
-unauthorized = sendResponseStatus status401 ()
+  t <- lookupUtf8Header "SessionToken" `orElse` notAuthenticated
+  Entity _ s <- (runDB $ getBy $ UniqueSessionToken t) `orElse` notAuthenticated
+  unless (sessionUser s == uid) $ permissionDenied ""
 
 requireTribeAdmin :: TribeId -> Handler ()
 requireTribeAdmin tid = do
-  token <- lookupUtf8Header "Token" `orElse` notAuthenticated
-  (Entity _ s) <- runDB (getBy (UniqueSessionToken token)) `orElse` permissionDenied ""
-  u <- runDB (get (sessionUser s)) `orElse` permissionDenied ""
+  t <- lookupUtf8Header "SessionToken" `orElse` notAuthenticated
+  Entity _ s <- (runDB $ getBy $ UniqueSessionToken t) `orElse` notAuthenticated
+  u <- (runDB $ get $ sessionUser s) `orElse` notAuthenticated
   unless (userTribeAdmin u == Just tid || userIsAdmin u) $ permissionDenied ""
 
 orElse :: (Handler (Maybe a)) -> Handler a -> Handler a

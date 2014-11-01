@@ -3,9 +3,12 @@ module Handler.Events where
 import Import hiding ((==.))
 import Database.Esqueleto hiding (Value)
 import Type.EventModel
+import Helpers.Request
 
 getEventsR :: TribeId -> Handler Value
 getEventsR tid = do
+  requireSession
+
   events <- runDB findEvents :: Handler [EventModel]
   return $ object ["events" .= events]
   where
@@ -18,7 +21,9 @@ getEventsR tid = do
         return (event, workout, location)
 
 postEventsR :: TribeId -> Handler ()
-postEventsR _ = do
+postEventsR tid = do
+  requireTribeAdmin tid
+
   event <- requireJsonBody :: Handler Event
   _     <- runDB $ insert event
   sendResponseStatus status201 ("CREATED" :: Text)
