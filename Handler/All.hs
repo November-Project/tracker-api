@@ -16,6 +16,7 @@ module Handler.All
   , module Handler.Verify
   , module Handler.FacebookSessions
   , module Handler.EmailSessions
+  , module Handler.Session
   ) where
 
 import Handler.Home
@@ -35,4 +36,5 @@ import Handler.Users
 import Handler.Verify
 import Handler.FacebookSessions
 import Handler.EmailSessions
+import Handler.Session
 

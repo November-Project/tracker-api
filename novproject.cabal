@@ -38,6 +38,7 @@ library
                      Handler.Verify
                      Handler.FacebookSessions
                      Handler.EmailSessions
+                     Handler.Session
                      Type.EventModel
                      Type.EventFullModel
                      Type.VerbalUser

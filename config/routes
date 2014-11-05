@@ -5,8 +5,9 @@
 /users                                                UsersR            POST
 /users/#UserId/verify/#String                         VerifyR           GET
 
-/sessions/facebook                                    FacebookSessionsR POST
-/sessions/email                                       EmailSessionsR    POST
+/session/facebook                                     FacebookSessionsR POST
+/session/email                                        EmailSessionsR    POST
+/sessions/#String                                     SessionR          GET DELETE
 
 /tribes/#TribeId/locations                            LocationsR        GET POST
 

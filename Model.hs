@@ -12,6 +12,20 @@ import Control.Monad
 share [mkPersist sqlSettings, mkMigrate "migrateAll"]
     $(persistFileWith lowerCaseSettings "config/models")
 
+instance ToJSON (Entity User) where
+  toJSON (Entity uid u) = object
+    [ "id"        .= uid
+    , "name"      .= userName u
+    , "email"     .= userEmail u
+    , "gender"    .= userGender u
+    , "tribe_id"  .= userTribe u
+    , "facebook_id" .= userFacebookId u
+    , "accepted_terms"  .= userAcceptedTerms u
+    , "is_verified"     .= userIsVerified u
+    , "is_admin"        .= userIsAdmin u
+    , "tribe_admin"     .= userTribeAdmin u
+    ]
+
 instance FromJSON User where
   parseJSON (Object o) = User
     <$> o .: "name"
