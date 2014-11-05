@@ -95,10 +95,10 @@ instance ToJSON (Entity Schedule) where
 
 instance FromJSON Schedule where
   parseJSON (Object o) = Schedule
-    <$> o .: "time"
+    <$> o .:? "time"
     <*> o .: "day_of_week"
     <*> o .: "tribe_id"
-    <*> o .: "location_id"
+    <*> o .:? "location_id"
   
   parseJSON _ = mzero
 

@@ -8,7 +8,6 @@ import Helpers.Request
 getEventsR :: TribeId -> Handler Value
 getEventsR tid = do
   requireSession
-
   events <- runDB findEvents :: Handler [EventModel]
   return $ object ["events" .= events]
   where
@@ -23,8 +22,7 @@ getEventsR tid = do
 postEventsR :: TribeId -> Handler ()
 postEventsR tid = do
   requireTribeAdmin tid
-
   event <- requireJsonBody :: Handler Event
   _     <- runDB $ insert event
-  sendResponseStatus status201 ("CREATED" :: Text)
+  sendResponseStatus status201 ()
 

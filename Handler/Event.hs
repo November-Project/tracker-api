@@ -11,10 +11,9 @@ import Helpers.Request
 getEventR :: TribeId -> EventId -> Handler Value
 getEventR _ eid = do
   requireSession
-
   event <- runDB findEvent :: Handler [EventModel]
   case event of
-    [] -> do sendResponseStatus status404 ("NOT FOUND" :: Text)
+    [] -> do sendResponseStatus status404 ()
     (e:_) -> do
       v <- runDB getEventVerbals :: Handler [VerbalUser]
       r <- runDB getEventResults :: Handler [ResultUser]
@@ -43,8 +42,7 @@ getEventR _ eid = do
 putEventR :: TribeId -> EventId -> Handler ()
 putEventR tid eid = do
   requireTribeAdmin tid
-
   event <- requireJsonBody :: Handler Event
   runDB $ replace eid event
-  sendResponseStatus status200 ("UPDATED" :: Text)
+  sendResponseStatus status200 ()
 

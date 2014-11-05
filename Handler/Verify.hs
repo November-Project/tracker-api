@@ -9,6 +9,6 @@ getVerifyR uid v = do
   user <- runDB $ get404 uid
   if userVerifyKey user == (Just $ pack $ urlDecode v)
     then do
-      _ <- runDB $ update uid [UserVerifyKey =. Nothing]
+      _ <- runDB $ update uid [UserVerifyKey =. Nothing, UserIsVerified =. True]
       sendResponseStatus status200 ()
     else invalidArgs ["verify key"]

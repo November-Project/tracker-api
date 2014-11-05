@@ -1,4 +1,10 @@
-module Helpers.Request (allowCrossOrigin, requireSession, requireUserSession, requireTribeAdmin) where
+module Helpers.Request
+  ( allowCrossOrigin
+  , requireSession
+  , requireUserSession
+  , requireTribeAdmin
+  , requireAdmin
+  ) where
 
 import Import
 import Network.HTTP.Types (HeaderName)
@@ -42,6 +48,13 @@ requireTribeAdmin tid = do
   Entity _ s <- (runDB $ getBy $ UniqueSessionToken t) `orElse` notAuthenticated
   u <- (runDB $ get $ sessionUser s) `orElse` notAuthenticated
   unless (userTribeAdmin u == Just tid || userIsAdmin u) $ permissionDenied ""
+
+requireAdmin :: Handler ()
+requireAdmin = do
+  t <- lookupUtf8Header "SessionToken" `orElse` notAuthenticated
+  Entity _ s <- (runDB $ getBy $ UniqueSessionToken t) `orElse` notAuthenticated
+  u <- (runDB $ get $ sessionUser s) `orElse` notAuthenticated
+  unless (userIsAdmin u) $ permissionDenied ""
 
 orElse :: (Handler (Maybe a)) -> Handler a -> Handler a
 a `orElse` f = do

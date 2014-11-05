@@ -5,8 +5,8 @@ import Helpers.Request
 
 postResultsR :: TribeId -> EventId -> Handler ()
 postResultsR _ _ = do
-  result <- requireJsonBody :: Handler Result
-  requireUserSession $ resultUser result
-  _      <- runDB $ insert result
-  sendResponseStatus status201 ("CREATED" :: Text)
+  r <- requireJsonBody :: Handler Result
+  requireUserSession $ resultUser r
+  _      <- runDB $ insert r
+  sendResponseStatus status201 ()
 
