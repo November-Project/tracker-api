@@ -14,7 +14,7 @@ postEmailSessionsR = do
       then invalidArgs ["email", "password"]
       else do
         st <- liftIO $ getRandomToken 32
-        _ <- runDB $ insert $ Session uid st $ deviceInfo s
+        _ <- runDB $ insert $ Session uid st (deviceInfo s) False
         return $ object ["token" .= st]) $ userPassword u
 
 data EmailAuth = EmailAuth { email :: Text, password :: Text, deviceInfo :: Maybe Text }

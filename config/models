@@ -17,6 +17,7 @@ Session sql=sessions
     user UserId
     token Text
     deviceInfo Text Maybe
+    expired Bool default=false
     UniqueSessionToken token
 
 Tribe sql=tribes

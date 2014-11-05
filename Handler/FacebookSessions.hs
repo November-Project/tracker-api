@@ -19,7 +19,7 @@ postFacebookSessionsR = do
       else do
         Entity uid _ <- getUserFromFacebookId $ userId fa
         st <- liftIO $ getRandomToken 32
-        _ <- runDB $ insert $ Session uid st $ deviceInfo s
+        _ <- runDB $ insert $ Session uid st (deviceInfo s) False
         sendResponseStatus status200 st) $ decode result
   where
     tokenVerifyURL = "https://graph.facebook.com/debug_token"
