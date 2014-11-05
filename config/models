@@ -37,7 +37,7 @@ Location sql=locations
 Workout sql=workouts
     title Text
     description Text
-    reps Int
+    reps Double
     time Int
     standard Bool
     allowUserReps Bool
@@ -64,10 +64,10 @@ Verbal sql=verbals
     event EventId
     UniqueVerbalUserEvent user event
 
-Result sql=requests
+Result sql=results
     user UserId
     event EventId
-    reps Int
+    reps Double
     time Int
     pr Bool
     UniqueResultUserEvent user event
