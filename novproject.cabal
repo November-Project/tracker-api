@@ -40,7 +40,6 @@ library
                      Handler.EmailSessions
                      Handler.Session
                      Type.EventModel
-                     Type.EventFullModel
                      Type.VerbalUser
                      Type.ResultUser
 

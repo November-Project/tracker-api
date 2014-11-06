@@ -2,8 +2,8 @@ module Handler.Events where
 
 import Import hiding ((==.))
 import Database.Esqueleto hiding (Value)
-import Type.EventModel
 import Helpers.Request
+import Type.EventModel
 
 getEventsR :: TribeId -> Handler Value
 getEventsR tid = do
