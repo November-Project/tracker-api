@@ -20,6 +20,7 @@ library
                      Settings.Development
                      Helpers.Request
                      Helpers.Crypto
+                     Helpers.Mailer
                      Handler.All
                      Handler.Home
                      Handler.Tribes
@@ -40,6 +41,7 @@ library
                      Handler.FacebookSessions
                      Handler.EmailSessions
                      Handler.Session
+                     Handler.Forgot
                      Type.EventModel
                      Type.VerbalUser
                      Type.ResultUser
@@ -97,6 +99,7 @@ library
                  , base64-bytestring             >= 1.0.0      && < 1.0.1
                  , HTTP                          >= 4000.2     && < 4000.3
                  , bcrypt                        >= 0.0.5      && < 0.0.6
+                 , smtp-mail                     >= 0.1.4.5    && < 0.1.5
 
     -- see https://github.com/yesodweb/yesod/issues/814
     if !os(windows)

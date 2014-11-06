@@ -4,6 +4,7 @@
 
 /users                                                UsersR            POST
 /users/#UserId/verify/#String                         VerifyR           GET
+/forgot                                               ForgotR           POST
 
 /session/facebook                                     FacebookSessionsR POST
 /session/email                                        EmailSessionsR    POST
