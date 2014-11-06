@@ -2,6 +2,7 @@ module Handler.All
   ( module Handler.Home
   , module Handler.Tribes
   , module Handler.Locations
+  , module Handler.Location
   , module Handler.Workouts
   , module Handler.Workout
   , module Handler.Schedules
@@ -22,6 +23,7 @@ module Handler.All
 import Handler.Home
 import Handler.Tribes
 import Handler.Locations
+import Handler.Location
 import Handler.Workouts
 import Handler.Workout
 import Handler.Schedules

@@ -10,6 +10,7 @@
 /sessions/#String                                     SessionR          GET DELETE
 
 /tribes/#TribeId/locations                            LocationsR        GET POST
+/tribes/#TribeId/locations/#LocationId                LocationR         GET PUT
 
 /tribes/#TribeId/workouts                             WorkoutsR         GET POST
 /tribes/#TribeId/workouts/#WorkoutId                  WorkoutR          GET PUT
