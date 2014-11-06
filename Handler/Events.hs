@@ -17,7 +17,15 @@ getEventsR tid = do
         on $ event ^. EventLocation ==. location ?. LocationId
         on $ event ^. EventWorkout ==. workout ?. WorkoutId
         where_ (event ^. EventTribe ==. val tid)
-        return (event, workout, location)
+        let vc = sub_select $
+                 from $ \v -> do
+                 where_ (v ^. VerbalEvent ==. event ^. EventId)
+                 return countRows
+        let rc = sub_select $
+                 from $ \r -> do
+                 where_ (r ^. ResultEvent ==. event ^. EventId)
+                 return countRows
+        return (event, workout, location, vc, rc)
 
 postEventsR :: TribeId -> Handler ()
 postEventsR tid = do

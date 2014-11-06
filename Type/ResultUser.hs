@@ -1,8 +1,7 @@
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 module Type.ResultUser where
 
-import Yesod
-import Model
+import Import
 
 type ResultUser = (Entity Result, Entity User)
 

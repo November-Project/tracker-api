@@ -1,8 +1,7 @@
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 module Type.VerbalUser where
 
-import Yesod
-import Model
+import Import
 
 type VerbalUser = (Entity Verbal, Entity User)
 
