@@ -1,5 +1,5 @@
 module Helpers.Request
-  ( allowCrossOrigin
+  ( siteCors
   , requireSession
   , requireUserSession
   , requireTribeAdmin
@@ -10,25 +10,26 @@ import Import
 import Network.HTTP.Types (HeaderName)
 import Data.Text.Encoding (decodeUtf8)
 import Control.Monad (unless)
+import Network.Wai (Middleware)
+import Network.Wai.Middleware.Cors
 
 lookupUtf8Header :: HeaderName -> Handler (Maybe Text)
 lookupUtf8Header headerName = return . fmap decodeUtf8 =<< lookupHeader headerName
 
-allowCrossOrigin :: Handler ()
-allowCrossOrigin = do
-    mo <- lookupUtf8Header "Origin"
-    mrh <- lookupUtf8Header "Access-Control-Request-Headers"
+siteCorsResourcePolicy :: CorsResourcePolicy
+siteCorsResourcePolicy = CorsResourcePolicy
+  { corsOrigins = Nothing
+  , corsMethods = simpleMethods
+  , corsRequestHeaders = ["Content-Type"]
+  , corsExposedHeaders = Nothing
+  , corsMaxAge = Nothing
+  , corsVaryOrigin = False
+  , corsRequireOrigin = False
+  , corsIgnoreFailures = False
+  }
 
-    case mo of
-        Just o  -> addHeader "Access-Control-Allow-Origin" o
-        Nothing -> return ()
-
-    case mrh of
-        Just rh -> addHeader "Access-Control-Allow-Headers" rh
-        Nothing -> return ()
-
-    addHeader "Access-Control-Allow-Methods" "POST, GET, OPTIONS"
-    addHeader "Access-Control-Allow-Credentials" "true"
+siteCors :: Middleware
+siteCors = cors $ const $ Just siteCorsResourcePolicy
 
 requireSession :: Handler ()
 requireSession = do

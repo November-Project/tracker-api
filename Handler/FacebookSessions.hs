@@ -2,32 +2,24 @@ module Handler.FacebookSessions (postFacebookSessionsR) where
 
 import Import
 import Helpers.Crypto
-import System.Environment (getEnv)
-import Network.HTTP.Conduit (simpleHttp)
+import Helpers.Facebook
 import Control.Monad (mzero)
-import Data.Aeson (decode, (.:?))
+import Data.Aeson ((.:?))
 
 postFacebookSessionsR :: Handler Value
 postFacebookSessionsR = do
   s <- requireJsonBody :: Handler FacebookAuth
-  aid <- liftIO $ getEnv "FACEBOOK_APP_ID"
-  t <- liftIO $ getEnv "FACEBOOK_SECRET"
-  result <- liftIO $ simpleHttp $ foldl (++) "" [tokenVerifyURL, "?input_token=", token s, "&access_token=", aid, "|", t]
-  maybe (invalidArgs ["token"]) (\fa -> do
-    if not $ isValid fa
-      then permissionDenied "Facebook"
-      else do
-        Entity uid _ <- getUserFromFacebookId $ userId fa
-        st <- liftIO $ getRandomToken 32
-        _ <- runDB $ insert $ Session uid st (deviceInfo s) False
-        sendResponseStatus status200 st) $ decode result
+  result <- verifyFacebookToken $ token s
+  case result of
+    Nothing -> permissionDenied "Facebook"
+    Just fid -> do
+      mu <- getUserWithFacebookId fid
+      createSession s =<< maybe (createOrUpdateFacebookUser $ token s) (\(Entity uid _) -> return uid) mu
   where
-    tokenVerifyURL = "https://graph.facebook.com/debug_token"
-    getUserFromFacebookId fid = do
-      users <- runDB $ selectList [UserFacebookId ==. Just fid] []
-      case users of
-        [] -> notFound
-        x:_ -> return x
+    createSession s uid = do
+      st <- liftIO $ getRandomToken 32
+      _ <- runDB $ insert $ Session uid st (deviceInfo s) False
+      sendResponseStatus status200 $ object ["token" .= st]
 
 data FacebookAuth = FacebookAuth { token :: String, deviceInfo :: Maybe Text }
 
@@ -38,11 +30,3 @@ instance FromJSON FacebookAuth where
 
   parseJSON _ = mzero
 
-data FacebookAuthResponse = FacebookAuthResponse { isValid :: Bool, userId :: Int }
-
-instance FromJSON FacebookAuthResponse where
-  parseJSON (Object o) = FacebookAuthResponse
-    <$> ((o .: "data") >>= (.: "is_valid"))
-    <*> ((o .: "data") >>= (.: "user_id"))
-
-  parseJSON _ = mzero

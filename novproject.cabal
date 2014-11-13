@@ -21,6 +21,7 @@ library
                      Helpers.Request
                      Helpers.Crypto
                      Helpers.Mailer
+                     Helpers.Facebook
                      Handler.All
                      Handler.Home
                      Handler.Tribes
@@ -100,6 +101,8 @@ library
                  , HTTP                          >= 4000.2     && < 4000.3
                  , bcrypt                        >= 0.0.5      && < 0.0.6
                  , smtp-mail                     >= 0.1.4.5    && < 0.1.5
+                 , wai-cors                      >= 0.2        && < 0.3
+                 , wai                           >= 3.0.2      && < 3.1
 
     -- see https://github.com/yesodweb/yesod/issues/814
     if !os(windows)
