@@ -20,7 +20,7 @@ siteCorsResourcePolicy :: CorsResourcePolicy
 siteCorsResourcePolicy = CorsResourcePolicy
   { corsOrigins = Nothing
   , corsMethods = simpleMethods
-  , corsRequestHeaders = ["Content-Type"]
+  , corsRequestHeaders = ["Content-Type", "AUTHORIZATION"]
   , corsExposedHeaders = Nothing
   , corsMaxAge = Nothing
   , corsVaryOrigin = False
