@@ -3,12 +3,13 @@
 /tribes                                               TribesR           GET
 
 /users                                                UsersR            POST
+/users/me                                             UserMeR           GET
 /users/#UserId/verify/#String                         VerifyR           GET
 /forgot                                               ForgotR           POST
 
 /session/facebook                                     FacebookSessionsR POST
 /session/email                                        EmailSessionsR    POST
-/sessions/#String                                     SessionR          GET DELETE
+/sessions                                             SessionR          DELETE
 
 /tribes/#TribeId/locations                            LocationsR        GET POST
 /tribes/#TribeId/locations/#LocationId                LocationR         GET PUT

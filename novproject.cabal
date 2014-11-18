@@ -43,6 +43,7 @@ library
                      Handler.EmailSessions
                      Handler.Session
                      Handler.Forgot
+                     Handler.UserMe
                      Type.EventModel
                      Type.VerbalUser
                      Type.ResultUser

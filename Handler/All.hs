@@ -19,6 +19,7 @@ module Handler.All
   , module Handler.EmailSessions
   , module Handler.Session
   , module Handler.Forgot
+  , module Handler.UserMe
   ) where
 
 import Handler.Home
@@ -41,4 +42,5 @@ import Handler.FacebookSessions
 import Handler.EmailSessions
 import Handler.Session
 import Handler.Forgot
+import Handler.UserMe
 
