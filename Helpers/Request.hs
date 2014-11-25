@@ -21,7 +21,7 @@ lookupUtf8Header headerName = return . fmap decodeUtf8 =<< lookupHeader headerNa
 siteCorsResourcePolicy :: CorsResourcePolicy
 siteCorsResourcePolicy = CorsResourcePolicy
   { corsOrigins = Nothing
-  , corsMethods = simpleMethods
+  , corsMethods = simpleMethods ++ ["PUT", "DELETE"]
   , corsRequestHeaders = ["Content-Type", "AUTHORIZATION"]
   , corsExposedHeaders = Nothing
   , corsMaxAge = Nothing

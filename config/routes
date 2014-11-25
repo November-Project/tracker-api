@@ -3,7 +3,8 @@
 /tribes                                               TribesR           GET
 
 /users                                                UsersR            POST
-/users/me                                             UserMeR           GET
+/user/me                                              UserMeR           GET
+/users/#UserId                                        UserR             PUT
 /users/#UserId/verify/#String                         VerifyR           GET
 /forgot                                               ForgotR           POST
 

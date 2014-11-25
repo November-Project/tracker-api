@@ -38,6 +38,7 @@ library
                      Handler.Results
                      Handler.Result
                      Handler.Users
+                     Handler.User
                      Handler.Verify
                      Handler.FacebookSessions
                      Handler.EmailSessions
