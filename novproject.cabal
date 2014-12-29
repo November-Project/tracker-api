@@ -45,6 +45,7 @@ library
                      Handler.Session
                      Handler.Forgot
                      Handler.UserMe
+                     Handler.Reset
                      Type.EventModel
                      Type.VerbalUser
                      Type.ResultUser
