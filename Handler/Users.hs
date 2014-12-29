@@ -3,7 +3,7 @@ module Handler.Users where
 import Import
 import Helpers.Crypto
 
-postUsersR :: Handler ()
+postUsersR :: Handler Value
 postUsersR = do
   user <- requireJsonBody :: Handler User
   case (userPassword user, userFacebookId user) of
@@ -14,7 +14,7 @@ postUsersR = do
     (Nothing, Just _) -> insertUser user
     _ -> invalidArgs ["password"]
 
-insertUser :: User -> Handler ()
+insertUser :: User -> Handler Value
 insertUser u = do
-  _ <- runDB $ insert u
-  sendResponseStatus status201 ()
+  uid <- runDB $ insert u
+  return $ object ["user" .= Entity uid u]
