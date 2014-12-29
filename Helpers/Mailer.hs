@@ -13,7 +13,7 @@ sendForgotEmail t e = do
   let mail = simpleMail from recipient [] [] subject $ body url
   u <- liftIO $ getEnv "SENDGRID_USERNAME"
   p <- liftIO $ getEnv "SENDGRID_PASSWORD"
-  liftIO $ sendMailWithLogin "smtp.sendgrid.net" u p mail
+  liftIO $ sendMailWithLogin' "smtp.sendgrid.net" 587 u p mail
   where
     recipient = [Address Nothing e]
     from = Address (Just "NP Tracker") "tracking+noreply@november-project.com"
