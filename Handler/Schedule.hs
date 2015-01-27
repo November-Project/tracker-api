@@ -9,12 +9,12 @@ getScheduleR _ sid = do
   schedule <- runDB $ get404 sid
   return $ object ["schedule" .= Entity sid schedule]
 
-putScheduleR :: TribeId -> ScheduleId -> Handler ()
+putScheduleR :: TribeId -> ScheduleId -> Handler Value
 putScheduleR tid sid = do
   requireTribeAdmin tid
   s <- requireJsonBody :: Handler Schedule
   runDB $ update sid [ScheduleTime =. scheduleTime s, ScheduleLocation =. scheduleLocation s]
-  sendResponseStatus status200 ()
+  return $ object ["schedule" .= Entity sid s]
 
 deleteScheduleR :: TribeId -> ScheduleId -> Handler ()
 deleteScheduleR _ sid = do
