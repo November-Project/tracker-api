@@ -43,6 +43,7 @@ Workout sql=workouts
     standard Bool
     allowUserReps Bool
     allowUserTime Bool
+    allowUserPr Bool
     tribe TribeId
     UniqueWorkoutTitleTribe title tribe
 

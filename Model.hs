@@ -82,6 +82,7 @@ instance ToJSON (Entity Workout) where
     , "standard"        .= workoutStandard w
     , "allow_user_reps" .= workoutAllowUserReps w
     , "allow_user_time" .= workoutAllowUserTime w
+    , "allow_user_pr"   .= workoutAllowUserPr w
     , "tribe_id"        .= workoutTribe w
     ]
 
@@ -94,6 +95,7 @@ instance FromJSON Workout where
     <*> o .: "standard"
     <*> o .: "allow_user_reps"
     <*> o .: "allow_user_time"
+    <*> o .: "allow_user_pr"
     <*> o .: "tribe_id"
   
   parseJSON _ = mzero

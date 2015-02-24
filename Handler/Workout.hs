@@ -9,9 +9,9 @@ getWorkoutR _ wid = do
   workout <- runDB $ get404 wid
   return $ object ["workout" .= Entity wid workout]
 
-putWorkoutR :: TribeId -> WorkoutId -> Handler ()
+putWorkoutR :: TribeId -> WorkoutId -> Handler Value
 putWorkoutR tid wid = do
   requireTribeAdmin tid
   workout <- requireJsonBody :: Handler Workout
   runDB $ replace wid workout
-  sendResponseStatus status200 ()
+  return $ object ["workout" .= Entity wid workout]
