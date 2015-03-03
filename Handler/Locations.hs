@@ -9,10 +9,10 @@ getLocationsR tid = do
   locations <- runDB $ selectList [LocationTribe ==. tid] [] :: Handler [Entity Location]
   return $ object ["locations" .= locations]
 
-postLocationsR :: TribeId -> Handler ()
+postLocationsR :: TribeId -> Handler Value
 postLocationsR tid = do
   requireTribeAdmin tid
   location <- requireJsonBody :: Handler Location
-  _        <- runDB $ insert location
-  sendResponseStatus status201 ()
+  lid      <- runDB $ insert location
+  return $ object ["location" .= Entity lid location]
 

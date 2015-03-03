@@ -9,10 +9,10 @@ getLocationR _ lid = do
   l <- runDB $ get404 lid
   return $ object ["location" .= Entity lid l]
 
-putLocationR :: TribeId -> LocationId -> Handler ()
+putLocationR :: TribeId -> LocationId -> Handler Value
 putLocationR tid lid = do
   requireTribeAdmin tid
   l <- requireJsonBody :: Handler Location
   runDB $ replace lid l
-  sendResponseStatus status200 ()
+  return $ object ["location" .= Entity lid l]
 
