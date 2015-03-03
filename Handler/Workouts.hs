@@ -9,10 +9,10 @@ getWorkoutsR tid = do
   workouts <- runDB $ selectList [WorkoutTribe ==. tid] [] :: Handler [Entity Workout]
   return $ object ["workouts" .= workouts]
 
-postWorkoutsR :: TribeId -> Handler ()
+postWorkoutsR :: TribeId -> Handler Value
 postWorkoutsR tid = do
   requireTribeAdmin tid
-  workout <- requireJsonBody :: Handler Workout
-  _       <- runDB $ insert workout
-  sendResponseStatus status201 ()
+  w   <- requireJsonBody :: Handler Workout
+  wid <- runDB $ insert w
+  return $ object ["workout" .= Entity wid w]
 
