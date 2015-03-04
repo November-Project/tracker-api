@@ -15,3 +15,4 @@ putWorkoutR tid wid = do
   w <- requireJsonBody :: Handler Workout
   runDB $ replace wid w
   return $ object ["workout" .= Entity wid w]
+
