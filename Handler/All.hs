@@ -15,6 +15,8 @@ module Handler.All
   , module Handler.Result
   , module Handler.Users
   , module Handler.User
+  , module Handler.Leaders
+  , module Handler.Leader
   , module Handler.Verify
   , module Handler.FacebookSessions
   , module Handler.EmailSessions
@@ -40,6 +42,8 @@ import Handler.Results
 import Handler.Result
 import Handler.Users
 import Handler.User
+import Handler.Leaders
+import Handler.Leader
 import Handler.Verify
 import Handler.FacebookSessions
 import Handler.EmailSessions
