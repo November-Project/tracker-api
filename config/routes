@@ -2,7 +2,7 @@
 
 /tribes                                               TribesR           GET
 
-/users                                                UsersR            POST
+/users                                                UsersR            GET POST
 /user/me                                              UserMeR           GET
 /users/#UserId                                        UserR             PUT
 /users/#UserId/verify/#String                         VerifyR           GET

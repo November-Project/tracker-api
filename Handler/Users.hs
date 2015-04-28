@@ -1,7 +1,22 @@
 module Handler.Users where
 
-import Import
+import Import hiding (concat)
 import Helpers.Crypto
+import Helpers.Request
+import Data.Text (concat)
+
+getUsersR :: Handler Value
+getUsersR = do
+  requireAdmin
+  
+  term <- lookupGetParam "q"
+  let ilike field val = Filter field (Left $ concat ["%", val, "%"]) (BackendSpecificFilter "ILIKE")
+
+  case term of
+    Just t -> do
+      users <- runDB $ selectList ([UserEmail `ilike` t] ||. [UserName `ilike` t]) [] :: Handler [Entity User]
+      return $ object ["users" .= users]
+    Nothing -> return $ object ["users" .= ()]
 
 postUsersR :: Handler Value
 postUsersR = do
