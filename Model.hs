@@ -52,6 +52,15 @@ instance ToJSON (Entity Tribe) where
     , "timezone"    .= tribeTimezone t
     ]
 
+instance FromJSON Tribe where
+  parseJSON (Object o) = Tribe
+    <$> o .: "title"
+    <*> o .: "latitude"
+    <*> o .: "longitude"
+    <*> o .: "timezone"
+
+  parseJSON _ = mzero
+
 instance ToJSON (Entity Location) where
   toJSON (Entity lid l) = object
     [ "id"        .= lid

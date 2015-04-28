@@ -1,6 +1,6 @@
 /home                                                 HomeR             GET
 
-/tribes                                               TribesR           GET
+/tribes                                               TribesR           GET POST
 
 /users                                                UsersR            GET POST
 /user/me                                              UserMeR           GET
