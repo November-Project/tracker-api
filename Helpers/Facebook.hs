@@ -7,19 +7,20 @@ import Control.Monad (mzero)
 import Data.Aeson (decode)
 import Database.Persist.Sql (toSqlKey)
 
-verifyFacebookToken :: String -> Handler (Maybe Int)
+verifyFacebookToken :: String -> Handler (Maybe Text)
 verifyFacebookToken t = do
   aid <- liftIO $ getEnv "FACEBOOK_APP_ID"
   s <- liftIO $ getEnv "FACEBOOK_SECRET"
   result <- liftIO $ simpleHttp $ concat [tokenVerifyURL, "?input_token=", t, "&access_token=", aid, "|", s]
-  maybe (invalidArgs ["token1"]) (\fa -> do
+
+  maybe (invalidArgs ["token"]) (\fa -> do
     if isValid fa
       then return $ Just $ userId fa
       else return Nothing) $ decode result
   where
-    tokenVerifyURL = "https://graph.facebook.com/debug_token"
+    tokenVerifyURL = "https://graph.facebook.com/v2.3/debug_token"
 
-data FacebookAuthResponse = FacebookAuthResponse { isValid :: Bool, userId :: Int }
+data FacebookAuthResponse = FacebookAuthResponse { isValid :: Bool, userId :: Text }
 
 instance FromJSON FacebookAuthResponse where
   parseJSON (Object o) = FacebookAuthResponse
@@ -28,7 +29,7 @@ instance FromJSON FacebookAuthResponse where
 
   parseJSON _ = mzero
 
-getUserWithFacebookId :: Int -> Handler (Maybe (Entity User))
+getUserWithFacebookId :: Text -> Handler (Maybe (Entity User))
 getUserWithFacebookId fid = do
   users <- runDB $ selectList [UserFacebookId ==. Just fid] []
   case users of
@@ -43,13 +44,13 @@ createOrUpdateFacebookUser t = do
     maybe (createUser fu) (\u -> updateUser u fu) mu) $ decode result
   where
     profileURL = "https://graph.facebook.com/me"
-    createUser u = runDB $ insert $ User (name u) (email u) Nothing (gender u) (toSqlKey 1) (Just $ read $ facebookId u) False Nothing (verified u) Nothing False Nothing
+    createUser u = runDB $ insert $ User (name u) (email u) Nothing (gender u) (toSqlKey 1) (Just $ facebookId u) False Nothing (verified u) Nothing False Nothing
     updateUser (Entity uid _) fu = do
-      runDB $ update uid [UserName =. name fu, UserFacebookId =. Just (read $ facebookId fu)]
+      runDB $ update uid [UserName =. name fu, UserFacebookId =. Just (facebookId fu)]
       return uid
 
 data FacebookUser = FacebookUser
-  { facebookId :: String
+  { facebookId :: Text
   , name :: Text
   , email :: Text
   , gender :: Text
