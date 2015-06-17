@@ -5,8 +5,8 @@ import Database.Esqueleto hiding (Value)
 import Helpers.Request
 import Type.EventModel
 import Data.Text (unpack)
-import Data.Time (getCurrentTime, parseTime, UTCTime)
-import System.Locale (defaultTimeLocale)
+import Data.Time.Format (parseTimeM, defaultTimeLocale)
+import Data.Time.Clock (getCurrentTime, UTCTime)
 
 getEventsR :: TribeId -> Handler Value
 getEventsR tid = do
@@ -47,4 +47,4 @@ postEventsR tid = do
   sendResponseStatus status201 ()
 
 dateFromString :: String -> Maybe UTCTime
-dateFromString = parseTime defaultTimeLocale "%Y-%m-%d"
+dateFromString = parseTimeM True defaultTimeLocale "%Y-%m-%d"

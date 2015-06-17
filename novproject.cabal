@@ -98,10 +98,10 @@ library
                  , monad-logger                  >= 0.3        && < 0.4
                  , fast-logger                   >= 2.2        && < 2.3
                  , wai-logger                    >= 2.2        && < 2.3
-                 , time                          >= 1.4        && < 1.5
+                 , time                          >= 1.5        && < 1.6
                  , old-locale                    >= 1.0.0.6    && < 1.0.1
                  , esqueleto                     >= 2.1        && < 2.2
-                 , unordered-containers          >= 0.2.4      && < 0.2.5
+                 , unordered-containers          >= 0.2.5      && < 0.2.6
                  , DRBG                          >= 0.5        && < 0.6
                  , base64-bytestring             >= 1.0.0      && < 1.0.1
                  , HTTP                          >= 4000.2     && < 4000.3
