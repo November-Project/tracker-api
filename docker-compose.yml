@@ -1,0 +1,22 @@
+db:
+  image: postgres:9.4
+  ports:
+   - "5432"
+web:
+  build: .
+  command: yesod devel
+  environment:
+    - HOST=0.0.0.0
+    - PGUSER=postgres
+    - PGPASS
+    - PGHOST=db
+    - PGPORT=5432
+    - PGDATABASE=postgres
+  tty: true
+  volumes:
+   - .:/app
+  ports:
+   - "3000:3000"
+  links:
+   - db
+
