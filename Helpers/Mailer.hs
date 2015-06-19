@@ -1,11 +1,9 @@
 module Helpers.Mailer where
 
-import Import
+import Import hiding (urlEncode)
 import System.Environment (getEnv)
 import Network.HTTP (urlEncode)
 import Network.Mail.SMTP
-import Data.Text.Lazy (pack, unpack, fromStrict)
-import qualified Data.Text.Lazy as TL
 
 sendForgotEmail :: Text -> Text -> Handler ()
 sendForgotEmail t e = do
@@ -18,7 +16,7 @@ sendForgotEmail t e = do
     recipient = [Address Nothing e]
     from = Address (Just "NP Tracker") "tracking+noreply@november-project.com"
     subject = "November Project Tracking App - Password Reset"
-    body url = pure $ plainTextPart $ TL.unlines
+    body url = pure $ plainTextPart $ unlines
       [ "Please click on this link to reset your password:"
       , ""
       , pack $ url ++ (urlEncode $ unpack $ fromStrict $ t)

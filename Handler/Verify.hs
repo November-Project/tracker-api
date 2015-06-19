@@ -1,8 +1,7 @@
 module Handler.Verify where
 
-import Import
+import Import hiding (urlDecode)
 import Network.HTTP (urlDecode)
-import Data.Text (pack)
 
 getVerifyR :: UserId -> String -> Handler ()
 getVerifyR uid v = do

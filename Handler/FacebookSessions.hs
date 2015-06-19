@@ -3,7 +3,6 @@ module Handler.FacebookSessions (postFacebookSessionsR) where
 import Import
 import Helpers.Crypto
 import Helpers.Facebook
-import Control.Monad (mzero)
 import Data.Aeson ((.:?))
 
 postFacebookSessionsR :: Handler Value

@@ -2,7 +2,6 @@ module Handler.Reset where
 
 import Import
 import Helpers.Crypto
-import Control.Monad (mzero)
 
 postResetR :: Handler ()
 postResetR = do

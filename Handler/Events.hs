@@ -1,12 +1,10 @@
 module Handler.Events where
 
-import Import hiding ((==.), (<=.), (>=.), parseTime)
+import Import hiding ((==.), (<=.), (>=.), parseTime, on)
 import Database.Esqueleto hiding (Value)
 import Helpers.Request
 import Type.EventModel
-import Data.Text (unpack)
-import Data.Time.Format (parseTimeM, defaultTimeLocale)
-import Data.Time.Clock (getCurrentTime, UTCTime)
+import Data.Time.Format (parseTimeM)
 
 getEventsR :: TribeId -> Handler Value
 getEventsR tid = do
@@ -22,7 +20,7 @@ getEventsR tid = do
   return $ object ["events" .= events]
   where
     findEvents stime etime = do
-      select $ 
+      select $
         from $ \(event `LeftOuterJoin` workout `LeftOuterJoin` location) -> do
         on $ event ^. EventLocation ==. location ?. LocationId
         on $ event ^. EventWorkout ==. workout ?. WorkoutId

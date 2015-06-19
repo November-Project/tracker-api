@@ -3,7 +3,6 @@ module Helpers.Facebook (verifyFacebookToken, getUserWithFacebookId, createOrUpd
 import Import
 import System.Environment (getEnv)
 import Network.HTTP.Conduit (simpleHttp)
-import Control.Monad (mzero)
 import Data.Aeson (decode)
 import Database.Persist.Sql (toSqlKey)
 

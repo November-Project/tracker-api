@@ -12,7 +12,8 @@ web:
     - PGHOST=db
     - PGPORT=5432
     - PGDATABASE=postgres
-  tty: true
+    - PGTESTDATABASE=postgres_test
+  stdin_open: true
   volumes:
    - .:/app
   ports:

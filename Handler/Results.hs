@@ -1,6 +1,6 @@
 module Handler.Results where
 
-import Import hiding ((==.))
+import Import hiding ((==.), on)
 import Database.Esqueleto hiding (Value)
 import Helpers.Request
 import Type.ResultUser
@@ -12,10 +12,10 @@ getResultsR _ eid = do
   return $ object ["results" .= rs]
   where
     selectResults =
-      select $  
-        from $ \(r `InnerJoin` u) -> do 
+      select $
+        from $ \(r `InnerJoin` u) -> do
         on $ r ^. ResultUser ==. u ^. UserId
-        where_ (r ^. ResultEvent ==. val eid) 
+        where_ (r ^. ResultEvent ==. val eid)
         return (r, u)
 
 postResultsR :: TribeId -> EventId -> Handler ()

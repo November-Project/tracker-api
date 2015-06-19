@@ -1,6 +1,6 @@
-module Handler.Event where 
+module Handler.Event where
 
-import Import hiding ((==.))
+import Import hiding ((==.), on)
 import Database.Esqueleto hiding (Value)
 import Helpers.Request
 import Type.EventModel

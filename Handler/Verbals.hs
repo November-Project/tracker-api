@@ -1,6 +1,6 @@
 module Handler.Verbals where
 
-import Import hiding ((==.))
+import Import hiding ((==.), on)
 import Database.Esqueleto hiding (Value)
 import Helpers.Request
 import Type.VerbalUser
@@ -12,10 +12,10 @@ getVerbalsR _ eid = do
   return $ object ["verbals" .= vs]
   where
     selectVerbals =
-      select $  
-        from $ \(v `InnerJoin` u) -> do 
+      select $
+        from $ \(v `InnerJoin` u) -> do
         on $ v ^. VerbalUser ==. u ^. UserId
-        where_ (v ^. VerbalEvent ==. val eid) 
+        where_ (v ^. VerbalEvent ==. val eid)
         return (v, u)
 
 postVerbalsR :: TribeId -> EventId -> Handler ()

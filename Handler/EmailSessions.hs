@@ -2,7 +2,6 @@ module Handler.EmailSessions (postEmailSessionsR) where
 
 import Import
 import Helpers.Crypto
-import Control.Monad (mzero)
 import Data.Aeson ((.:?))
 
 postEmailSessionsR :: Handler Value

@@ -9,9 +9,6 @@ module Helpers.Request
   ) where
 
 import Import
-import Network.HTTP.Types (HeaderName)
-import Data.Text.Encoding (decodeUtf8)
-import Control.Monad (unless)
 import Network.Wai (Middleware)
 import Network.Wai.Middleware.Cors
 
@@ -37,7 +34,7 @@ requireSession :: Handler ()
 requireSession = do
   _ <- getSessionFromHeader
   return ()
-  
+
 requireUserSession :: UserId -> Handler ()
 requireUserSession uid = do
   Entity _ s <- getSessionFromHeader

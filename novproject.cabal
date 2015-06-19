@@ -73,12 +73,17 @@ library
                 NoMonomorphismRestriction
                 DeriveDataTypeable
                 ViewPatterns
+                TupleSections
+                RecordWildCards
 
     build-depends: base                          >= 4          && < 5
                  , yesod                         >= 1.4.0      && < 1.5
                  , yesod-core                    >= 1.4.0      && < 1.5
                  , yesod-auth                    >= 1.4.0      && < 1.5
                  , yesod-form                    >= 1.4.0      && < 1.5
+                 , classy-prelude                >= 0.10.2
+                 , classy-prelude-conduit        >= 0.10.2
+                 , classy-prelude-yesod          >= 0.10.2
                  , bytestring                    >= 0.9        && < 0.11
                  , text                          >= 0.11       && < 2.0
                  , persistent                    >= 2.0        && < 2.2
@@ -98,10 +103,9 @@ library
                  , monad-logger                  >= 0.3        && < 0.4
                  , fast-logger                   >= 2.2        && < 2.3
                  , wai-logger                    >= 2.2        && < 2.3
-                 , time                          >= 1.5        && < 1.6
-                 , old-locale                    >= 1.0.0.6    && < 1.0.1
+                 , time
                  , esqueleto                     >= 2.1        && < 2.2
-                 , unordered-containers          >= 0.2.5      && < 0.2.6
+                 , unordered-containers
                  , DRBG                          >= 0.5        && < 0.6
                  , base64-bytestring             >= 1.0.0      && < 1.0.1
                  , HTTP                          >= 4000.2     && < 4000.3
@@ -109,6 +113,7 @@ library
                  , smtp-mail                     >= 0.1.4.5    && < 0.1.5
                  , wai-cors                      >= 0.2        && < 0.3
                  , wai                           >= 3.0.2      && < 3.1
+                 , file-embed
 
     -- see https://github.com/yesodweb/yesod/issues/814
     if !os(windows)
@@ -120,21 +125,35 @@ executable         novproject
 
     main-is:           main.hs
     hs-source-dirs:    app
-    build-depends:     base
-                     , novproject
-                     , yesod
+    build-depends:     base, novproject
 
     ghc-options:       -threaded -O2 -rtsopts -with-rtsopts=-N
 
 test-suite test
     type:              exitcode-stdio-1.0
-    main-is:           main.hs
+    main-is:           Spec.hs
     hs-source-dirs:    test
     ghc-options:       -Wall
 
+    extensions: TemplateHaskell
+                QuasiQuotes
+                OverloadedStrings
+                NoImplicitPrelude
+                CPP
+                MultiParamTypeClasses
+                TypeFamilies
+                GADTs
+                GeneralizedNewtypeDeriving
+                FlexibleContexts
+                EmptyDataDecls
+                NoMonomorphismRestriction
+                DeriveDataTypeable
+                ViewPatterns
+                TupleSections
+
     build-depends: base
                  , novproject
-                 , yesod-test >= 1.4 && < 1.5
+                 , yesod-test >= 1.4.3 && < 1.5
                  , yesod-core
                  , yesod
                  , persistent
@@ -142,4 +161,6 @@ test-suite test
                  , resourcet
                  , monad-logger
                  , transformers
-                 , hspec
+                 , hspec >= 2.0.0
+                 , classy-prelude
+                 , classy-prelude-yesod

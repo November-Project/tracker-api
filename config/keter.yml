@@ -12,22 +12,25 @@ stanzas:
 
     # Name of your executable. You are unlikely to need to change this.
     # Note that all file paths are relative to the keter.yml file.
-    exec: ../dist/build/novproject/novproject
+    exec: ../dist/build/myproj/myproj
 
     # Command line options passed to your application.
-    args:
-      - production
+    args: []
 
     hosts:
       # You can specify one or more hostnames for your application to respond
       # to. The primary hostname will be used for generating your application
       # root.
-      - www.novproject.com
+      - www.myproj.com
+
+    # Enable to force Keter to redirect to https
+    # Can be added to any stanza
+    requires-secure: false
 
   # Static files.
   - type: static-files
     hosts:
-      - static.novproject.com
+      - static.myproj.com
     root: ../static
 
     # Uncomment to turn on directory listings.
@@ -37,9 +40,9 @@ stanzas:
   - type: redirect
 
     hosts:
-      - novproject.com
+      - myproj.com
     actions:
-      - host: www.novproject.com
+      - host: www.myproj.com
         # secure: false
         # port: 80
 
@@ -50,7 +53,14 @@ stanzas:
 # keter`. Uses `scp` internally, so you can set it to a remote destination
 # copy-to: user@host:/opt/keter/incoming
 
+# You can pass arguments to `scp` used above. This example limits bandwidth to
+# 1024 Kbit/s and uses port 2222 instead of the default 22
+# copy-to-args:
+#   - "-l 1024"
+#   - "-P 2222"
+
 # If you would like to have Keter automatically create a PostgreSQL database
 # and set appropriate environment variables for it to be discovered, uncomment
 # the following line.
-# postgres: true
+# plugins:
+#   postgres: true

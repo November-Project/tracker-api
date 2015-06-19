@@ -3,7 +3,6 @@ module Handler.Forgot where
 import Import
 import Helpers.Crypto
 import Helpers.Mailer
-import Control.Monad (mzero)
 
 postForgotR :: Handler ()
 postForgotR = do

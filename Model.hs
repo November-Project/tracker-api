@@ -1,13 +1,8 @@
 module Model where
 
-import Yesod
-import Data.Text (Text)
+import ClassyPrelude.Yesod
 import Database.Persist.Quasi
-import Data.Time
 import Data.Aeson ((.:?))
-import Prelude
-import Control.Applicative
-import Control.Monad
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"]
     $(persistFileWith lowerCaseSettings "config/models")
@@ -78,7 +73,7 @@ instance FromJSON Location where
     <*> o .: "longitude"
     <*> o .: "standard"
     <*> o .: "tribe_id"
-  
+
   parseJSON _ = mzero
 
 instance ToJSON (Entity Workout) where
@@ -106,7 +101,7 @@ instance FromJSON Workout where
     <*> o .: "allow_user_time"
     <*> o .: "allow_user_pr"
     <*> o .: "tribe_id"
-  
+
   parseJSON _ = mzero
 
 instance ToJSON (Entity Schedule) where
@@ -124,7 +119,7 @@ instance FromJSON Schedule where
     <*> o .: "day_of_week"
     <*> o .: "tribe_id"
     <*> o .:? "location_id"
-  
+
   parseJSON _ = mzero
 
 instance ToJSON (Entity Event) where
@@ -142,14 +137,14 @@ instance FromJSON Event where
     <*> o .: "tribe_id"
     <*> o .:? "location_id"
     <*> o .:? "workout_id"
-  
+
   parseJSON _ = mzero
 
 instance FromJSON Verbal where
   parseJSON (Object o) = Verbal
     <$> o .: "user_id"
     <*> o .: "event_id"
-  
+
   parseJSON _ = mzero
 
 instance FromJSON Result where
@@ -159,6 +154,6 @@ instance FromJSON Result where
     <*> o .: "reps"
     <*> o .: "time"
     <*> o .: "pr"
-  
+
   parseJSON _ = mzero
 

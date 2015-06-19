@@ -1,0 +1,2 @@
+database:
+  database: "_env:PGTESTDATABASE:novproject_test"
