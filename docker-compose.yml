@@ -6,6 +6,7 @@ web:
   build: .
   command: yesod devel
   environment:
+    - LANG=en_US.UTF-8
     - HOST=0.0.0.0
     - PGUSER=postgres
     - PGPASS

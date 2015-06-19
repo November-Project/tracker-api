@@ -1,4 +1,4 @@
-FROM thoughtbot/yesod:1.4.10-2
+FROM thoughtbot/yesod
 
 RUN mkdir -p /app
 WORKDIR /app
