@@ -27,3 +27,6 @@ database:
 
 copyright: Insert copyright statement here
 #analytics: UA-YOURCODE
+
+Production:
+  approot: "http://novproject-staging.herokuapp.com"
