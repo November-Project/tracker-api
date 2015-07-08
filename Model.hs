@@ -42,6 +42,7 @@ instance ToJSON (Entity Tribe) where
   toJSON (Entity tid t) = object
     [ "id"          .= tid
     , "title"       .= tribeTitle t
+    , "days_of_week".= tribeDaysOfWeek t
     , "latitude"    .= tribeLatitude t
     , "longitude"   .= tribeLongitude t
     , "timezone"    .= tribeTimezone t
@@ -50,6 +51,7 @@ instance ToJSON (Entity Tribe) where
 instance FromJSON Tribe where
   parseJSON (Object o) = Tribe
     <$> o .: "title"
+    <*> o .: "days_of_week"
     <*> o .: "latitude"
     <*> o .: "longitude"
     <*> o .: "timezone"
@@ -124,17 +126,25 @@ instance FromJSON Schedule where
 
 instance ToJSON (Entity Event) where
   toJSON (Entity eid e) = object
-    [ "id"          .= eid
-    , "date"        .= eventDate e
-    , "tribe_id"    .= eventTribe e
-    , "location_id" .= eventLocation e
-    , "workout_id"  .= eventWorkout e
+    [ "id"                .= eid
+    , "tribe_id"          .= eventTribe e
+    , "date"              .= eventDate e
+    , "recurring"         .= eventRecurring e
+    , "inverse_recuring"  .= eventInverseRecurring e
+    , "week"              .= eventWeek e
+    , "days"              .= eventDays e
+    , "location_id"       .= eventLocation e
+    , "workout_id"        .= eventWorkout e
     ]
 
 instance FromJSON Event where
   parseJSON (Object o) = Event
-    <$> o .: "date"
-    <*> o .: "tribe_id"
+    <$> o .: "tribe_id"
+    <*> o .:? "date"
+    <*> o .: "recurring"
+    <*> o .: "inverse_recurring"
+    <*> o .:? "week"
+    <*> o .:? "days"
     <*> o .:? "location_id"
     <*> o .:? "workout_id"
 

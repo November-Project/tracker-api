@@ -22,6 +22,7 @@ Session sql=sessions
 
 Tribe sql=tribes
     title Text
+    daysOfWeek [Int] default="'[3]'"
     latitude Double
     longitude Double
     timezone Text
@@ -55,11 +56,15 @@ Schedule sql=schedules
     UniqueScheduleDayTribe dayOfWeek tribe
 
 Event sql=events
-    date UTCTime
     tribe TribeId
+    date Day Maybe
+    times [Time]
+    recurring Bool default=false
+    inverseRecurring Bool default=false
+    week Int Maybe
+    days [Int] Maybe
     location LocationId Maybe
     workout WorkoutId Maybe
-    UniqueEventDateTribe date tribe
 
 Verbal sql=verbals
     user UserId

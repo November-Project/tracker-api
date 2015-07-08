@@ -1,6 +1,6 @@
 module Handler.Events where
 
-import Import hiding ((==.), (<=.), (>=.), parseTime, on)
+import Import hiding ((==.), (<=.), (>=.), (||.), parseTime, on)
 import Database.Esqueleto hiding (Value)
 import Helpers.Request
 import Type.EventModel
@@ -12,9 +12,8 @@ getEventsR tid = do
 
   startTimeString <- lookupGetParam "start_date"
   endTimeString <- lookupGetParam "end_date"
-  defaultTime <- lift getCurrentTime
-  let startDate = maybe defaultTime id $ (unpack <$> startTimeString) >>= dateFromString
-  let endDate = maybe defaultTime id $ (unpack <$> endTimeString) >>= dateFromString
+  let startDate = (unpack <$> startTimeString) >>= dateFromString
+  let endDate = (unpack <$> endTimeString) >>= dateFromString
 
   events <- runDB $ findEvents startDate endDate :: Handler [EventModel]
   return $ object ["events" .= events]
@@ -25,8 +24,9 @@ getEventsR tid = do
         on $ event ^. EventLocation ==. location ?. LocationId
         on $ event ^. EventWorkout ==. workout ?. WorkoutId
         where_ (event ^. EventTribe ==. val tid)
-        where_ (event ^. EventDate >=. val stime)
-        where_ (event ^. EventDate <=. val etime)
+        where_ $ ((event ^. EventDate >=. val stime)
+          &&. (event ^. EventDate <=. val etime))
+          ||. (event ^. EventRecurring ==. val True)
         let vc = sub_select $
                  from $ \v -> do
                  where_ (v ^. VerbalEvent ==. event ^. EventId)
