@@ -4,7 +4,6 @@ module Model where
 import ClassyPrelude.Yesod
 import Database.Persist.Quasi
 import Data.Aeson ((.:?))
-import Data.Text (split)
 import Data.Time (showGregorian, TimeOfDay)
 import Helpers.Date
 
@@ -157,14 +156,14 @@ instance FromJSON Event where
   parseJSON _ = mzero
 
 instance FromJSON Day where
-  parseJSON (String s) = return $ parseGregorianDate $ map unpack (split (=='-') s)
+  parseJSON (String s) = parseGregorianDate $ unpack s
   parseJSON _ = mzero
 
 instance ToJSON Day where
-  toJSON = String . pack . showGregorian  
+  toJSON = String . pack . showGregorian
 
 instance FromJSON TimeOfDay where
-  parseJSON (String s) = return $ parseTimeOfDay $ map unpack (split (==':') s)
+  parseJSON (String s) = parseTimeOfDay $ unpack s
   parseJSON _ = mzero
 
 instance ToJSON TimeOfDay where

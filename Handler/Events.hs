@@ -5,8 +5,6 @@ import Database.Esqueleto hiding (Value)
 import Helpers.Request
 import Helpers.Date
 import Type.EventModel
-import Data.Time.Format (parseTimeM)
-import Data.Text (split)
 
 getEventsR :: TribeId -> Handler Value
 getEventsR tid = do
@@ -14,8 +12,8 @@ getEventsR tid = do
 
   startTimeString <- lookupGetParam "start_date"
   endTimeString <- lookupGetParam "end_date"
-  let startDate = parseGregorianDate <$> ((map unpack) . (split (=='-')) <$> startTimeString)
-  let endDate = parseGregorianDate <$> ((map unpack) . (split (=='-')) <$> endTimeString)
+  let startDate = unpack <$> startTimeString >>= parseGregorianDate
+  let endDate = unpack <$> endTimeString >>= parseGregorianDate
 
   events <- runDB $ findEvents startDate endDate :: Handler [EventModel]
   return $ object ["events" .= events]
@@ -46,5 +44,3 @@ postEventsR tid = do
   _     <- runDB $ insert event
   sendResponseStatus status201 ()
 
-dateFromString :: String -> Maybe UTCTime
-dateFromString = parseTimeM True defaultTimeLocale "%Y-%m-%d"
