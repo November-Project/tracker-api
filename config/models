@@ -58,7 +58,7 @@ Schedule sql=schedules
 Event sql=events
     tribe TribeId
     date Day Maybe
-    times [Time]
+    times [TimeOfDay]
     recurring Bool default=false
     inverseRecurring Bool default=false
     week Int Maybe

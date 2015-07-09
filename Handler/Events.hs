@@ -3,8 +3,10 @@ module Handler.Events where
 import Import hiding ((==.), (<=.), (>=.), (||.), parseTime, on)
 import Database.Esqueleto hiding (Value)
 import Helpers.Request
+import Helpers.Date
 import Type.EventModel
 import Data.Time.Format (parseTimeM)
+import Data.Text (split)
 
 getEventsR :: TribeId -> Handler Value
 getEventsR tid = do
@@ -12,8 +14,8 @@ getEventsR tid = do
 
   startTimeString <- lookupGetParam "start_date"
   endTimeString <- lookupGetParam "end_date"
-  let startDate = (unpack <$> startTimeString) >>= dateFromString
-  let endDate = (unpack <$> endTimeString) >>= dateFromString
+  let startDate = parseGregorianDate <$> ((map unpack) . (split (=='-')) <$> startTimeString)
+  let endDate = parseGregorianDate <$> ((map unpack) . (split (=='-')) <$> endTimeString)
 
   events <- runDB $ findEvents startDate endDate :: Handler [EventModel]
   return $ object ["events" .= events]

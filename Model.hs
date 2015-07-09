@@ -1,8 +1,12 @@
+{-# OPTIONS_GHC -fno-warn-orphans #-}
 module Model where
 
 import ClassyPrelude.Yesod
 import Database.Persist.Quasi
 import Data.Aeson ((.:?))
+import Data.Text (split)
+import Data.Time (showGregorian, TimeOfDay)
+import Helpers.Date
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"]
     $(persistFileWith lowerCaseSettings "config/models")
@@ -129,6 +133,7 @@ instance ToJSON (Entity Event) where
     [ "id"                .= eid
     , "tribe_id"          .= eventTribe e
     , "date"              .= eventDate e
+    , "times"             .= eventTimes e
     , "recurring"         .= eventRecurring e
     , "inverse_recuring"  .= eventInverseRecurring e
     , "week"              .= eventWeek e
@@ -141,6 +146,7 @@ instance FromJSON Event where
   parseJSON (Object o) = Event
     <$> o .: "tribe_id"
     <*> o .:? "date"
+    <*> o .: "times"
     <*> o .: "recurring"
     <*> o .: "inverse_recurring"
     <*> o .:? "week"
@@ -149,6 +155,20 @@ instance FromJSON Event where
     <*> o .:? "workout_id"
 
   parseJSON _ = mzero
+
+instance FromJSON Day where
+  parseJSON (String s) = return $ parseGregorianDate $ map unpack (split (=='-') s)
+  parseJSON _ = mzero
+
+instance ToJSON Day where
+  toJSON = String . pack . showGregorian  
+
+instance FromJSON TimeOfDay where
+  parseJSON (String s) = return $ parseTimeOfDay $ map unpack (split (==':') s)
+  parseJSON _ = mzero
+
+instance ToJSON TimeOfDay where
+  toJSON = String . pack . show
 
 instance FromJSON Verbal where
   parseJSON (Object o) = Verbal
