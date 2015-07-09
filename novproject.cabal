@@ -23,6 +23,7 @@ library
                      Helpers.Crypto
                      Helpers.Mailer
                      Helpers.Facebook
+                     Helpers.Date
                      Handler.All
                      Handler.Home
                      Handler.Tribes
