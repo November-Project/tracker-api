@@ -31,8 +31,6 @@ library
                      Handler.Location
                      Handler.Workouts
                      Handler.Workout
-                     Handler.Schedules
-                     Handler.Schedule
                      Handler.Events
                      Handler.Event
                      Handler.Verbals

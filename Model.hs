@@ -109,24 +109,6 @@ instance FromJSON Workout where
 
   parseJSON _ = mzero
 
-instance ToJSON (Entity Schedule) where
-  toJSON (Entity sid s) = object
-    [ "id"          .= sid
-    , "time"        .= scheduleTime s
-    , "day_of_week" .= scheduleDayOfWeek s
-    , "tribe_id"    .= scheduleTribe s
-    , "location_id" .= scheduleLocation s
-    ]
-
-instance FromJSON Schedule where
-  parseJSON (Object o) = Schedule
-    <$> o .:? "time"
-    <*> o .: "day_of_week"
-    <*> o .: "tribe_id"
-    <*> o .:? "location_id"
-
-  parseJSON _ = mzero
-
 instance ToJSON (Entity Event) where
   toJSON (Entity eid e) = object
     [ "id"                .= eid

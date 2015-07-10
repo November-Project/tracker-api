@@ -5,8 +5,6 @@ module Handler.All
   , module Handler.Location
   , module Handler.Workouts
   , module Handler.Workout
-  , module Handler.Schedules
-  , module Handler.Schedule
   , module Handler.Events
   , module Handler.Event
   , module Handler.Verbals
@@ -32,8 +30,6 @@ import Handler.Locations
 import Handler.Location
 import Handler.Workouts
 import Handler.Workout
-import Handler.Schedules
-import Handler.Schedule
 import Handler.Events
 import Handler.Event
 import Handler.Verbals

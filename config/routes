@@ -19,9 +19,6 @@
 /tribes/#TribeId/workouts                             WorkoutsR         GET POST
 /tribes/#TribeId/workouts/#WorkoutId                  WorkoutR          GET PUT
 
-/tribes/#TribeId/schedules                            SchedulesR        GET POST
-/tribes/#TribeId/schedules/#ScheduleId                ScheduleR         GET PUT DELETE
-
 /tribes/#TribeId/events                               EventsR           GET POST
 /tribes/#TribeId/events/#EventId                      EventR            GET PUT
 

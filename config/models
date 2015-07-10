@@ -48,13 +48,6 @@ Workout sql=workouts
     tribe TribeId
     UniqueWorkoutTitleTribe title tribe
 
-Schedule sql=schedules
-    time Text Maybe
-    dayOfWeek Int
-    tribe TribeId
-    location LocationId Maybe
-    UniqueScheduleDayTribe dayOfWeek tribe
-
 Event sql=events
     tribe TribeId
     date Day Maybe
