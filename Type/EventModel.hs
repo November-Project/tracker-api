@@ -8,11 +8,17 @@ type EventModel = (Entity Event, Maybe (Entity Workout), Maybe (Entity Location)
 
 instance ToJSON EventModel where
   toJSON (Entity eid e, w, l, vc, rc) = object
-    [ "id"            .= eid
-    , "date"          .= eventDate e
-    , "workout"       .= w
-    , "location"      .= l
-    , "verbal_count"  .= unValue vc
-    , "result_count"  .= unValue rc
+    [ "id"                .= eid
+    , "date"              .= eventDate e
+    , "times"             .= eventTimes e
+    , "recurring"         .= eventRecurring e
+    , "inverse_recurring" .= eventInverseRecurring e
+    , "week"              .= eventWeek e
+    , "days"              .= eventDays e
+    , "recurring_event"   .= eventRecurringEvent e
+    , "workout"           .= w
+    , "location"          .= l
+    , "verbal_count"      .= unValue vc
+    , "result_count"      .= unValue rc
     ]
 

@@ -1,6 +1,6 @@
 module Handler.Events where
 
-import Import hiding ((==.), (<=.), (>=.), (||.), parseTime, on)
+import Import hiding ((==.), (<=.), (>=.), (||.), on)
 import Database.Esqueleto hiding (Value)
 import Helpers.Request
 import Helpers.Date

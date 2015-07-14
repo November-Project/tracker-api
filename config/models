@@ -56,6 +56,7 @@ Event sql=events
     inverseRecurring Bool default=false
     week Int Maybe
     days [Int] Maybe
+    recurringEvent EventId Maybe
     location LocationId Maybe
     workout WorkoutId Maybe
 
