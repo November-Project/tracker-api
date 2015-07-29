@@ -116,7 +116,6 @@ instance ToJSON (Entity Event) where
     , "date"              .= eventDate e
     , "times"             .= eventTimes e
     , "recurring"         .= eventRecurring e
-    , "inverse_recuring"  .= eventInverseRecurring e
     , "week"              .= eventWeek e
     , "days"              .= eventDays e
     , "recurring_id"      .= eventRecurringEvent e
@@ -130,9 +129,8 @@ instance FromJSON Event where
     <*> o .:? "date"
     <*> o .: "times"
     <*> o .: "recurring"
-    <*> o .: "inverse_recurring"
-    <*> o .:? "week"
-    <*> o .:? "days"
+    <*> o .: "week"
+    <*> o .: "days"
     <*> o .:? "recurring_id"
     <*> o .:? "location_id"
     <*> o .:? "workout_id"

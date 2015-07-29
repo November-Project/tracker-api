@@ -12,7 +12,6 @@ instance ToJSON EventModel where
     , "date"              .= eventDate e
     , "times"             .= eventTimes e
     , "recurring"         .= eventRecurring e
-    , "inverse_recurring" .= eventInverseRecurring e
     , "week"              .= eventWeek e
     , "days"              .= eventDays e
     , "recurring_event"   .= eventRecurringEvent e

@@ -53,9 +53,8 @@ Event sql=events
     date Day Maybe
     times [TimeOfDay]
     recurring Bool default=false
-    inverseRecurring Bool default=false
-    week Int Maybe
-    days [Int] Maybe
+    week Int default=0
+    days [Int] default="'[]'"
     recurringEvent EventId Maybe
     location LocationId Maybe
     workout WorkoutId Maybe
