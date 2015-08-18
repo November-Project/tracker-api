@@ -37,10 +37,10 @@ getEventsR tid = do
                  return countRows
         return (event, workout, location, vc, rc)
 
-postEventsR :: TribeId -> Handler ()
+postEventsR :: TribeId -> Handler Value
 postEventsR tid = do
   requireTribeAdmin tid
   event <- requireJsonBody :: Handler Event
-  _     <- runDB $ insert event
-  sendResponseStatus status201 ()
+  eid   <- runDB $ insert event
+  sendResponseStatus status201 $ object ["event" .= Entity eid event]
 

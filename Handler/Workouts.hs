@@ -14,5 +14,5 @@ postWorkoutsR tid = do
   requireTribeAdmin tid
   w   <- requireJsonBody :: Handler Workout
   wid <- runDB $ insert w
-  return $ object ["workout" .= Entity wid w]
+  sendResponseStatus status201 $ object ["workout" .= Entity wid w]
 

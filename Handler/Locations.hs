@@ -14,5 +14,5 @@ postLocationsR tid = do
   requireTribeAdmin tid
   location <- requireJsonBody :: Handler Location
   lid      <- runDB $ insert location
-  return $ object ["location" .= Entity lid location]
+  sendResponseStatus status201 $ object ["location" .= Entity lid location]
 

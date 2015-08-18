@@ -32,4 +32,4 @@ postUsersR = do
 insertUser :: User -> Handler Value
 insertUser u = do
   uid <- runDB $ insert u
-  return $ object ["user" .= Entity uid u]
+  sendResponseStatus status201 $ object ["user" .= Entity uid u]

@@ -18,7 +18,7 @@ postFacebookSessionsR = do
     createSession s uid = do
       st <- liftIO $ getRandomToken 32
       _ <- runDB $ insert $ Session uid st (deviceInfo s) False
-      sendResponseStatus status200 $ object ["token" .= st]
+      sendResponseStatus status201 $ object ["token" .= st]
 
 data FacebookAuth = FacebookAuth { token :: String, deviceInfo :: Maybe Text }
 

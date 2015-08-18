@@ -15,7 +15,7 @@ postResetR = do
         [ UserForgotToken =. Nothing
         , UserPassword =. p
         ]
-      sendResponseStatus status200 ()
+      sendResponseStatus status201 ()
 
 data ResetData = ResetData
   { password :: Text

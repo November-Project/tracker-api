@@ -11,7 +11,7 @@ postForgotR = do
   ft <- liftIO $ getRandomToken 32
   runDB $ update uid [UserForgotToken =. Just ft]
   sendForgotEmail ft $ email f
-  sendResponseStatus status200 ()
+  sendResponseStatus status201 ()
 
 data ForgotData = ForgotData { email :: Text }
 
