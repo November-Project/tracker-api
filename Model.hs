@@ -68,7 +68,7 @@ instance ToJSON (Entity Location) where
     , "latitude"  .= locationLatitude l
     , "longitude" .= locationLongitude l
     , "standard"  .= locationStandard l
-    , "tribe"     .= locationTribe l
+    , "tribe_id"  .= locationTribe l
     ]
 
 instance FromJSON Location where
