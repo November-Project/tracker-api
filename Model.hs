@@ -4,7 +4,7 @@ module Model where
 import ClassyPrelude.Yesod
 import Database.Persist.Quasi
 import Data.Aeson ((.:?))
-import Data.Time (showGregorian, TimeOfDay)
+import Data.Time (showGregorian, TimeOfDay(..))
 import Helpers.Date
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"]
@@ -149,7 +149,7 @@ instance FromJSON TimeOfDay where
   parseJSON _ = mzero
 
 instance ToJSON TimeOfDay where
-  toJSON = String . pack . show
+  toJSON (TimeOfDay h m _) = String . pack $ show h ++ ":" ++ show m
 
 instance FromJSON Verbal where
   parseJSON (Object o) = Verbal
