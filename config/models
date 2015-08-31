@@ -46,7 +46,6 @@ Workout sql=workouts
     allowUserTime Bool
     allowUserPr Bool
     tribe TribeId
-    UniqueWorkoutTitleTribe title tribe
 
 Event sql=events
     tribe TribeId
