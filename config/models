@@ -54,6 +54,7 @@ Event sql=events
     recurring Bool default=false
     week Int default=0
     days [Int] default="'[]'"
+    hideWorkout Bool default=true
     recurringEvent EventId Maybe
     location LocationId Maybe
     workout WorkoutId Maybe

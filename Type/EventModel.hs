@@ -15,6 +15,7 @@ instance ToJSON EventModel where
     , "recurring"         .= eventRecurring e
     , "week"              .= eventWeek e
     , "days"              .= eventDays e
+    , "hide_workout"      .= eventHideWorkout e
     , "recurring_event"   .= eventRecurringEvent e
     , "workout"           .= w
     , "location"          .= l
