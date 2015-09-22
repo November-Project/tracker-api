@@ -27,6 +27,7 @@ library
                      Handler.All
                      Handler.Home
                      Handler.Tribes
+                     Handler.Tribe
                      Handler.Locations
                      Handler.Location
                      Handler.Workouts
