@@ -164,6 +164,7 @@ instance FromJSON Result where
   parseJSON (Object o) = Result
     <$> o .: "user_id"
     <*> o .: "event_id"
+    <*> o .: "event_time"
     <*> o .: "reps"
     <*> o .: "time"
     <*> o .: "pr"

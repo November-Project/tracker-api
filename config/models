@@ -67,7 +67,8 @@ Verbal sql=verbals
 Result sql=results
     user UserId
     event EventId
+    eventTime Text
     reps Double
     time Int
     pr Bool
-    UniqueResultUserEvent user event
+    UniqueResultUserEventEventTime user event eventTime
