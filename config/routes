@@ -30,4 +30,4 @@
 /tribes/#TribeId/events/#EventId/results/#ResultId    ResultR           PUT
 
 /tribes/#TribeId/leaders                              LeadersR          GET
-/tribes/#TribeId/leaders/#UserId                      LeaderR           PUT DELETE
+/tribes/#TribeId/leaders/#UserId                      LeaderR           POST DELETE

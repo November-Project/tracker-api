@@ -21,7 +21,7 @@ instance ToJSON (Entity User) where
     , "accepted_terms"  .= userAcceptedTerms u
     , "is_verified"     .= userIsVerified u
     , "is_admin"        .= userIsAdmin u
-    , "tribe_admin"     .= userTribeAdmin u
+    , "tribe_admin_id"  .= userTribeAdmin u
     ]
 
 instance FromJSON User where
