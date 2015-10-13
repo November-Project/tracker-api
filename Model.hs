@@ -12,12 +12,13 @@ share [mkPersist sqlSettings, mkMigrate "migrateAll"]
 
 instance ToJSON (Entity User) where
   toJSON (Entity uid u) = object
-    [ "id"        .= uid
-    , "name"      .= userName u
-    , "email"     .= userEmail u
-    , "gender"    .= userGender u
-    , "tribe_id"  .= userTribe u
-    , "facebook_id" .= userFacebookId u
+    [ "id"              .= uid
+    , "name"            .= userName u
+    , "email"           .= userEmail u
+    , "gender"          .= userGender u
+    , "tribe_id"        .= userTribe u
+    , "photo_url"       .= userPhotoUrl u
+    , "facebook_id"     .= userFacebookId u
     , "accepted_terms"  .= userAcceptedTerms u
     , "is_verified"     .= userIsVerified u
     , "is_admin"        .= userIsAdmin u
@@ -31,6 +32,7 @@ instance FromJSON User where
     <*> o .:? "password"
     <*> o .: "gender"
     <*> o .: "tribe_id"
+    <*> o .:? "photo_url"
     <*> o .:? "facebook_id"
     <*> o .: "accepted_terms"
     <*> pure Nothing

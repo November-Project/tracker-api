@@ -8,4 +8,4 @@ deleteVerbalR _ _ vid = do
   v <- runDB $ get404 vid
   requireUserSession $ verbalUser v
   runDB $ delete vid
-  sendResponseStatus status200 ()
+  sendResponseStatus status204 ()

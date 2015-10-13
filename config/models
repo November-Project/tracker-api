@@ -4,6 +4,7 @@ User sql=users
     password Text Maybe
     gender Text
     tribe TribeId
+    photoUrl Text Maybe
     facebookId Text Maybe
     acceptedTerms Bool
     verifyKey Text Maybe

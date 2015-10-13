@@ -43,7 +43,7 @@ createOrUpdateFacebookUser t = do
     maybe (createUser fu) (\u -> updateUser u fu) mu) $ decode result
   where
     profileURL = "https://graph.facebook.com/me"
-    createUser u = runDB $ insert $ User (name u) (email u) Nothing (gender u) (toSqlKey 1) (Just $ facebookId u) False Nothing (verified u) Nothing False Nothing
+    createUser u = runDB $ insert $ User (name u) (email u) Nothing (gender u) (toSqlKey 1) (Just $ "http://graph.facebook.com/" ++ facebookId u  ++ "/picture") (Just $ facebookId u) False Nothing (verified u) Nothing False Nothing
     updateUser (Entity uid _) fu = do
       runDB $ update uid [UserName =. name fu, UserFacebookId =. Just (facebookId fu)]
       return uid

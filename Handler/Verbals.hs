@@ -18,10 +18,11 @@ getVerbalsR _ eid = do
         where_ (v ^. VerbalEvent ==. val eid)
         return (v, u)
 
-postVerbalsR :: TribeId -> EventId -> Handler ()
+postVerbalsR :: TribeId -> EventId -> Handler Value
 postVerbalsR _ _ = do
   verbal <- requireJsonBody :: Handler Verbal
   requireUserSession $ verbalUser verbal
-  _ <- runDB $ insert verbal
-  sendResponseStatus status201 ()
+  vid <- runDB $ insert verbal
+  user <- runDB $ get404 $ verbalUser verbal
+  return $ object ["verbal" .= ((Entity vid verbal, Entity (verbalUser verbal) user) :: VerbalUser)]
 
