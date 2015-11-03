@@ -27,7 +27,7 @@
 /tribes/#TribeId/events/#EventId/verbals/#VerbalId    VerbalR           DELETE
 
 /tribes/#TribeId/events/#EventId/results              ResultsR          GET POST
-/tribes/#TribeId/events/#EventId/results/#ResultId    ResultR           PUT
+/tribes/#TribeId/events/#EventId/results/#ResultId    ResultR           PUT DELETE
 
 /tribes/#TribeId/leaders                              LeadersR          GET
 /tribes/#TribeId/leaders/#UserId                      LeaderR           POST DELETE

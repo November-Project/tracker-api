@@ -21,7 +21,12 @@ getResultsR _ eid = do
 postResultsR :: TribeId -> EventId -> Handler ()
 postResultsR _ _ = do
   r <- requireJsonBody :: Handler Result
-  requireUserSession $ resultUser r
-  _      <- runDB $ insert r
-  sendResponseStatus status201 ()
+  let uid = resultUser r
+  requireUserSession uid
+
+  rid <- runDB $ insert r
+  u <- runDB $ get404 uid
+
+  let result = (Entity rid r, Entity uid u) :: ResultUser
+  sendResponseStatus status201 $ object ["result" .= result]
 

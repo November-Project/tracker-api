@@ -2,15 +2,28 @@ module Handler.Result where
 
 import Import
 import Helpers.Request
+import Type.ResultUser
 
-putResultR :: TribeId -> EventId -> ResultId -> Handler ()
+putResultR :: TribeId -> EventId -> ResultId -> Handler Value
 putResultR _ _ rid = do
   r <- requireJsonBody :: Handler Result
-  requireUserSession $ resultUser r
+  let uid = resultUser r
+
+  requireUserSession uid
   runDB $ update rid
     [ ResultReps  =. resultReps r
     , ResultTime  =. resultTime r
     , ResultPr    =. resultPr r
     ]
-  sendResponseStatus status200 ()
+  
+  u <- runDB $ get404 uid
+  let result = (Entity rid r, Entity uid u) :: ResultUser
+  return $ object ["result" .= result]
+
+deleteResultR :: TribeId -> EventId -> ResultId -> Handler ()
+deleteResultR _ _ rid = do
+  r <- runDB $ get404 rid
+  requireUserSession $ resultUser r
+  runDB $ delete rid
+  sendResponseStatus status204 ()
 
