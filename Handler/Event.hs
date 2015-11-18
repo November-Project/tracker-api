@@ -38,9 +38,18 @@ putEventR tid eid = do
   if eventRecurring e
     then do
       now <- utctDay <$> liftIO getCurrentTime
-      runDB $ updateWhere [EventRecurringEvent ==. Just eid, EventDate >. Just now] 
-        [EventLocation =. eventLocation e, EventWorkout =. eventWorkout e] 
+      runDB $ updateWhere
+      [
+        EventRecurringEvent ==. Just eid,
+        EventDate >. Just now
+      ]
+      [
+        EventTimes =. eventTimes e,
+        EventHideWorkout =. eventHideWorkout e,
+        EventLocation =. eventLocation e,
+        EventWorkout =. eventWorkout e
+      ]
     else return ()
-    
+
   return $ object ["event" .= (Entity eid e)]
 
