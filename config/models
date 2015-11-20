@@ -50,7 +50,7 @@ Workout sql=workouts
 
 Event sql=events
     tribe TribeId
-    date Day Maybe
+    date Day
     times [TimeOfDay]
     recurring Bool default=false
     week Int default=0
@@ -59,6 +59,7 @@ Event sql=events
     recurringEvent EventId Maybe
     location LocationId Maybe
     workout WorkoutId Maybe
+    UniqueTribeDate tribe date
 
 Verbal sql=verbals
     user UserId

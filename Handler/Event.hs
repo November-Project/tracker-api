@@ -19,15 +19,7 @@ getEventR _ eid = do
         ES.on $ event ES.^. EventLocation ES.==. location ES.?. LocationId
         ES.on $ event ES.^. EventWorkout ES.==. workout ES.?. WorkoutId
         ES.where_ (event ES.^. EventId ES.==. ES.val eid)
-        let vc = ES.sub_select $
-                 ES.from $ \v -> do
-                 ES.where_ (v ES.^. VerbalEvent ES.==. ES.val eid)
-                 return ES.countRows
-        let rc = ES.sub_select $
-                 ES.from $ \r -> do
-                 ES.where_ (r ES.^. ResultEvent ES.==. ES.val eid)
-                 return ES.countRows
-        return (event, workout, location, vc, rc)
+        return (event, workout, location)
 
 putEventR :: TribeId -> EventId -> Handler Value
 putEventR tid eid = do
@@ -39,16 +31,16 @@ putEventR tid eid = do
     then do
       now <- utctDay <$> liftIO getCurrentTime
       runDB $ updateWhere
-      [
-        EventRecurringEvent ==. Just eid,
-        EventDate >. Just now
-      ]
-      [
-        EventTimes =. eventTimes e,
-        EventHideWorkout =. eventHideWorkout e,
-        EventLocation =. eventLocation e,
-        EventWorkout =. eventWorkout e
-      ]
+        [
+          EventRecurringEvent ==. Just eid,
+          EventDate >. now
+        ]
+        [
+          EventTimes =. eventTimes e,
+          EventHideWorkout =. eventHideWorkout e,
+          EventLocation =. eventLocation e,
+          EventWorkout =. eventWorkout e
+        ]
     else return ()
 
   return $ object ["event" .= (Entity eid e)]
