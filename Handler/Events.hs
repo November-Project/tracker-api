@@ -61,6 +61,13 @@ postEventsR :: TribeId -> Handler Value
 postEventsR tid = do
   requireTribeAdmin tid
   event <- requireJsonBody :: Handler Event
-  eid   <- runDB $ insert event
-  sendResponseStatus status201 $ object ["event" .= Entity eid event]
+
+  if eventRecurring event
+    then do
+      -- Recurring events shouldn't have dates
+      eid <- runDB $ insert event { eventDate = Nothing }
+      sendResponseStatus status201 $ object ["event" .= Entity eid event]
+    else do
+      eid <- runDB $ insert event
+      sendResponseStatus status201 $ object ["event" .= Entity eid event]
 
