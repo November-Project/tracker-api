@@ -13,12 +13,12 @@ createRecurringEvents startDay endDay res es = nubBy unique $ concat $ newEvents
     unique e1 e2 = eventDate e1 == eventDate e2
     newEvents (Entity eid e) = (\date -> e
       { eventRecurringEvent = Just eid
-      , eventDate = date
+      , eventDate = Just date
       , eventRecurring = False
       }) <$> newDates e
     newDates e = filter (`notElem` eventDates) $ recurringDates e
     recurringDates e = recurringDays (eventDays e) (eventWeek e) startDay endDay
-    eventDates = eventDate <$> es
+    eventDates = catMaybes $ eventDate <$> es
 
 getEventsR :: TribeId -> Handler Value
 getEventsR tid = do
@@ -32,8 +32,8 @@ getEventsR tid = do
   let endDate = fromMaybe now $ unpack <$> endTimeString >>= parseGregorianDate
 
   allEventEntities <- runDB $ selectList (
-    [ EventDate >=. startDate
-    , EventDate <=. endDate
+    [ EventDate >=. Just startDate
+    , EventDate <=. Just endDate
     ] ||.
     [ EventRecurring ==. True
     ]) [] :: Handler [Entity Event]
@@ -53,9 +53,8 @@ getEventsR tid = do
         ES.on $ event ES.^. EventLocation ES.==. location ES.?. LocationId
         ES.on $ event ES.^. EventWorkout ES.==. workout ES.?. WorkoutId
         ES.where_ (event ES.^. EventTribe ES.==. ES.val tid)
-        ES.where_ $ ((event ES.^. EventDate ES.>=. ES.val stime)
-          ES.&&. (event ES.^. EventDate ES.<=. ES.val etime))
-          ES.||. (event ES.^. EventRecurring ES.==. ES.val True)
+        ES.where_ (event ES.^. EventDate ES.>=. ES.val (Just stime))
+        ES.where_ (event ES.^. EventDate ES.<=. ES.val (Just etime))
         return (event, workout, location)
 
 postEventsR :: TribeId -> Handler Value

@@ -129,7 +129,7 @@ instance ToJSON (Entity Event) where
 instance FromJSON Event where
   parseJSON (Object o) = Event
     <$> o .: "tribe_id"
-    <*> o .: "date"
+    <*> o .:? "date"
     <*> o .: "times"
     <*> o .: "recurring"
     <*> o .: "week"

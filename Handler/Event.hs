@@ -25,15 +25,17 @@ putEventR :: TribeId -> EventId -> Handler Value
 putEventR tid eid = do
   requireTribeAdmin tid
   e <- requireJsonBody :: Handler Event
-  runDB $ replace eid e
 
+  -- if not recurring clear out eventRecurringEvent and update as normal
   if eventRecurring e
     then do
+      -- save recurring event changes and make sure there isn't a date
+      runDB $ replace eid e { eventDate = Nothing }
       now <- utctDay <$> liftIO getCurrentTime
       runDB $ updateWhere
         [
           EventRecurringEvent ==. Just eid,
-          EventDate >. now
+          EventDate >. Just now
         ]
         [
           EventTimes =. eventTimes e,
@@ -41,7 +43,9 @@ putEventR tid eid = do
           EventLocation =. eventLocation e,
           EventWorkout =. eventWorkout e
         ]
-    else return ()
+    else
+      -- Save edited event and make sure it's not linked to a recurring event
+      runDB $ replace eid e { eventRecurringEvent = Nothing }
 
   return $ object ["event" .= (Entity eid e)]
 
