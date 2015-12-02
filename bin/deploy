@@ -2,20 +2,15 @@
 #
 # usage: ./bin/deploy [APP]
 #
-#   APP defaults to carnival-staging
-#
-#   Set BUILD=1 to perform a Halcyon build
+#   APP defaults to staging
 #
 ###
 set -e
 
 case "${1:-staging}" in
   staging)
-    cabal clean
-    cabal configure -fproduction
-    cabal build
-    tar cfvz /app/dist/build/slug/slug.tgz -C / --exclude=.git ./app
-    # Upload to Heroku?
+    docker-compose run web ./bin/build-slug
+    ./bin/upload-slug
     ;;
   production)
     heroku pipeline:promote --app novproject-staging
