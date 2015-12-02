@@ -49,3 +49,33 @@ putEventR tid eid = do
 
   return $ object ["event" .= (Entity eid e)]
 
+deleteEventR :: TribeId -> EventId -> Handler ()
+deleteEventR tid eid = do
+  requireTribeAdmin tid
+
+  e <- runDB $ get404 eid
+
+  if eventRecurring e
+    then do
+      now <- utctDay <$> liftIO getCurrentTime
+      -- Update past events to remove recurring event reference
+      runDB $ updateWhere
+        [EventRecurringEvent ==. Just eid, EventDate <=. Just now]
+        [EventRecurringEvent =. Nothing]
+      -- Delete all future events
+      events <- runDB $ selectList [EventRecurringEvent ==. Just eid, EventDate >. Just now] []
+      mapM_ deleteEventEntity events
+      -- Delete actual event
+      deleteEvent eid
+    else
+      deleteEvent eid
+
+  sendResponseStatus status204 ()
+
+  where
+    deleteEventEntity (Entity i _) = deleteEvent i
+    deleteEvent i = do
+      runDB $ deleteWhere [VerbalEvent ==. i]
+      runDB $ deleteWhere [ResultEvent ==. i]
+      runDB $ delete i
+      
