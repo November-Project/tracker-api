@@ -1,7 +1,7 @@
 dist*
 static/tmp/
 static/combined/
-config/client_session_key.aes
+client_session_key.aes
 *.hi
 *.o
 *.sqlite3
@@ -14,3 +14,5 @@ cabal.sandbox.config
 *.swp
 slug.tgz
 backup/
+..bfg-report
+excludes.txt
