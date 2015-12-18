@@ -2,6 +2,7 @@ module Handler.EmailSessions (postEmailSessionsR) where
 
 import Import
 import Helpers.Crypto
+import Type.ErrorMessage
 import Data.Aeson ((.:?))
 
 postEmailSessionsR :: Handler Value
@@ -10,7 +11,7 @@ postEmailSessionsR = do
   Entity uid u <- runDB $ getBy404 $ UniqueUserEmail $ email s
   maybe notFound (\b -> do
     if not $ validateText b $ password s
-      then invalidArgs ["email", "password"]
+      then sendResponseStatus status400 $ toJSON $ ErrorMessage "Invalid email or password."
       else do
         st <- liftIO $ getRandomToken 32
         _ <- runDB $ insert $ Session uid st (deviceInfo s) False

@@ -52,6 +52,7 @@ library
                      Type.EventModel
                      Type.VerbalUser
                      Type.ResultUser
+                     Type.ErrorMessage
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
