@@ -16,3 +16,4 @@ slug.tgz
 backup/
 ..bfg-report
 excludes.txt
+.env

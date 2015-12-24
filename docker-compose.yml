@@ -5,8 +5,8 @@ db:
 web:
   build: .
   command: yesod devel
+  env_file: .env
   environment:
-    - LANG=en_US.UTF-8
     - HOST=0.0.0.0
     - PGUSER=postgres
     - PGPASS
@@ -16,7 +16,9 @@ web:
     - PGTESTDATABASE=postgres_test
     - FACEBOOK_APP_ID=577189602429829
     - FACEBOOK_SECRET=c19d1f5496e39312bd090cd70f5dd5c2
+    - RESET_PASSWORD_URL=http://localhost:4200/auth/reset/
   stdin_open: true
+  tty: true
   volumes:
    - .:/app
   ports:

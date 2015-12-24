@@ -13,6 +13,7 @@ User sql=users
     isAdmin Bool
     tribeAdmin TribeId Maybe
     UniqueUserEmail email
+    UniqueUserFacebookId facebookId !force
 
 Session sql=sessions
     user UserId

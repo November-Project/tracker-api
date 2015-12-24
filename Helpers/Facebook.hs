@@ -17,7 +17,7 @@ verifyFacebookToken t = do
       then return $ Just $ userId fa
       else return Nothing) $ decode result
   where
-    tokenVerifyURL = "https://graph.facebook.com/v2.3/debug_token"
+    tokenVerifyURL = "https://graph.facebook.com/v2.5/debug_token"
 
 data FacebookAuthResponse = FacebookAuthResponse { isValid :: Bool, userId :: Text }
 
@@ -29,18 +29,20 @@ instance FromJSON FacebookAuthResponse where
   parseJSON _ = mzero
 
 getUserWithFacebookId :: Text -> Handler (Maybe (Entity User))
-getUserWithFacebookId fid = do
-  users <- runDB $ selectList [UserFacebookId ==. Just fid] []
-  case users of
-    [] -> return Nothing
-    x:_ -> return $ Just x
+getUserWithFacebookId fid = runDB $ getBy $ UniqueUserFacebookId $ Just fid 
 
 createOrUpdateFacebookUser :: String -> Handler UserId
 createOrUpdateFacebookUser t = do
   result <- liftIO $ simpleHttp $ concat [profileURL, "?access_token=", t]
+  
   maybe (invalidArgs ["token2"]) (\fu -> do
-    mu <- runDB $ getBy $ UniqueUserEmail $ email fu
-    maybe (createUser fu) (\u -> updateUser u fu) mu) $ decode result
+    muEmail <- runDB $ getBy $ UniqueUserEmail $ email fu
+    muFacebook <- runDB $ getBy $ UniqueUserFacebookId $ Just $ facebookId fu
+    case (muEmail, muFacebook) of
+      (Just uEmail, _) -> updateUser uEmail fu
+      (_, Just (Entity uid _)) -> return uid
+      (_, _) -> createUser fu
+    ) $ decode result
   where
     profileURL = "https://graph.facebook.com/me"
     createUser u = runDB $ insert $ User (name u) (email u) Nothing (gender u) (toSqlKey 1) (Just $ "http://graph.facebook.com/" ++ facebookId u  ++ "/picture") (Just $ facebookId u) False Nothing (verified u) Nothing False Nothing
