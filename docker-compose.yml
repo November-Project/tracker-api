@@ -18,7 +18,7 @@ web:
     - FACEBOOK_SECRET=c19d1f5496e39312bd090cd70f5dd5c2
     - RESET_PASSWORD_URL=http://localhost:4200/auth/reset/
   stdin_open: true
-  tty: true
+#  tty: true
   volumes:
    - .:/app
   ports:
