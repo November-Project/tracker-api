@@ -114,6 +114,7 @@ instance FromJSON Workout where
 instance ToJSON (Entity Event) where
   toJSON (Entity eid e) = object
     [ "id"                .= eid
+    , "title"             .= eventTitle e
     , "tribe_id"          .= eventTribe e
     , "date"              .= eventDate e
     , "times"             .= eventTimes e
@@ -128,7 +129,8 @@ instance ToJSON (Entity Event) where
 
 instance FromJSON Event where
   parseJSON (Object o) = Event
-    <$> o .: "tribe_id"
+    <$> o .:? "title" .!= Nothing
+    <*> o .: "tribe_id"
     <*> o .:? "date" .!= Nothing
     <*> o .: "times"
     <*> o .: "recurring"

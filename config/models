@@ -48,8 +48,10 @@ Workout sql=workouts
     allowUserTime Bool
     allowUserPr Bool
     tribe TribeId
+    UniqueWorkoutTitle title
 
 Event sql=events
+    title Text Maybe
     tribe TribeId
     date Day Maybe
     times [TimeOfDay]
