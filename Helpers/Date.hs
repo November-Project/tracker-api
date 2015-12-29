@@ -7,7 +7,6 @@ module Helpers.Date
 import ClassyPrelude.Yesod
 import Data.Time
 import Data.Time.Calendar.OrdinalDate (sundayStartWeek)
-import Control.Applicative (Alternative)
 
 parseGregorianDate :: Monad m => String -> m Day
 parseGregorianDate = parseTimeM True defaultTimeLocale "%F"

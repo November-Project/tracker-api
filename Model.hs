@@ -3,8 +3,8 @@ module Model where
 
 import ClassyPrelude.Yesod
 import Database.Persist.Quasi
-import Data.Aeson ((.:?))
-import Data.Time (showGregorian, TimeOfDay(..))
+import Data.Aeson ((.:?), (.!=))
+import Data.Time (TimeOfDay(..))
 import Helpers.Date
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"]
@@ -29,11 +29,11 @@ instance FromJSON User where
   parseJSON (Object o) = User
     <$> o .: "name"
     <*> o .: "email"
-    <*> o .:? "password"
+    <*> o .:? "password" .!= Nothing
     <*> o .: "gender"
     <*> o .: "tribe_id"
-    <*> o .:? "photo_url"
-    <*> o .:? "facebook_id"
+    <*> o .:? "photo_url" .!= Nothing
+    <*> o .:? "facebook_id" .!= Nothing
     <*> o .: "accepted_terms"
     <*> pure Nothing
     <*> pure False
@@ -129,24 +129,17 @@ instance ToJSON (Entity Event) where
 instance FromJSON Event where
   parseJSON (Object o) = Event
     <$> o .: "tribe_id"
-    <*> o .:? "date"
+    <*> o .:? "date" .!= Nothing
     <*> o .: "times"
     <*> o .: "recurring"
     <*> o .: "week"
     <*> o .: "days"
     <*> o .: "hide_workout"
-    <*> o .:? "recurring_id"
-    <*> o .:? "location_id"
-    <*> o .:? "workout_id"
+    <*> o .:? "recurring_id" .!= Nothing
+    <*> o .:? "location_id" .!= Nothing
+    <*> o .:? "workout_id" .!= Nothing
 
   parseJSON _ = mzero
-
-instance FromJSON Day where
-  parseJSON (String s) = parseGregorianDate $ unpack s
-  parseJSON _ = mzero
-
-instance ToJSON Day where
-  toJSON = String . pack . showGregorian
 
 instance FromJSON TimeOfDay where
   parseJSON (String s) = parseTimeOfDay $ unpack s
