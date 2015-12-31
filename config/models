@@ -12,6 +12,8 @@ User sql=users
     forgotToken Text Maybe
     isAdmin Bool
     tribeAdmin TribeId Maybe
+    createdAt UTCTime default=now() MigrationOnly
+    updatedAt UTCTime default=now() MigrationOnly
     UniqueUserEmail email
     UniqueUserFacebookId facebookId !force
 
@@ -20,6 +22,8 @@ Session sql=sessions
     token Text
     deviceInfo Text Maybe
     expired Bool default=false
+    createdAt UTCTime default=now() MigrationOnly
+    updatedAt UTCTime default=now() MigrationOnly
     UniqueSessionToken token
 
 Tribe sql=tribes
@@ -28,6 +32,8 @@ Tribe sql=tribes
     latitude Double
     longitude Double
     timezone Text
+    createdAt UTCTime default=now() MigrationOnly
+    updatedAt UTCTime default=now() MigrationOnly
     UniqueTribeTitle title
 
 Location sql=locations
@@ -36,6 +42,8 @@ Location sql=locations
     longitude Double
     standard Bool
     tribe TribeId
+    createdAt UTCTime default=now() MigrationOnly
+    updatedAt UTCTime default=now() MigrationOnly
     UniqueLocationTitleTribe title tribe
 
 Workout sql=workouts
@@ -48,6 +56,8 @@ Workout sql=workouts
     allowUserTime Bool
     allowUserPr Bool
     tribe TribeId
+    createdAt UTCTime default=now() MigrationOnly
+    updatedAt UTCTime default=now() MigrationOnly
     UniqueWorkoutTitle title
 
 Event sql=events
@@ -62,11 +72,15 @@ Event sql=events
     recurringEvent EventId Maybe
     location LocationId Maybe
     workout WorkoutId Maybe
+    createdAt UTCTime default=now() MigrationOnly
+    updatedAt UTCTime default=now() MigrationOnly
     UniqueTribeDate tribe date !force
 
 Verbal sql=verbals
     user UserId
     event EventId
+    createdAt UTCTime default=now() MigrationOnly
+    updatedAt UTCTime default=now() MigrationOnly
     UniqueVerbalUserEvent user event
 
 Result sql=results
@@ -76,4 +90,6 @@ Result sql=results
     reps Double
     time Int
     pr Bool
+    createdAt UTCTime default=now() MigrationOnly
+    updatedAt UTCTime default=now() MigrationOnly
     UniqueResultUserEventEventTime user event eventTime

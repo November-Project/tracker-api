@@ -1,22 +1,3 @@
--- Add "created_at" and "updated_at" columns
-ALTER TABLE "users" ADD COLUMN created_at timestamp NOT NULL DEFAULT now();
-ALTER TABLE "sessions" ADD COLUMN created_at timestamp NOT NULL DEFAULT now();
-ALTER TABLE "tribes" ADD COLUMN created_at timestamp NOT NULL DEFAULT now();
-ALTER TABLE "locations" ADD COLUMN created_at timestamp NOT NULL DEFAULT now();
-ALTER TABLE "workouts" ADD COLUMN created_at timestamp NOT NULL DEFAULT now();
-ALTER TABLE "verbals" ADD COLUMN created_at timestamp NOT NULL DEFAULT now();
-ALTER TABLE "results" ADD COLUMN created_at timestamp NOT NULL DEFAULT now();
-ALTER TABLE "events" ADD COLUMN created_at timestamp NOT NULL DEFAULT now();
-
-ALTER TABLE "users" ADD COLUMN updated_at timestamp NOT NULL DEFAULT now();
-ALTER TABLE "sessions" ADD COLUMN updated_at timestamp NOT NULL DEFAULT now();
-ALTER TABLE "tribes" ADD COLUMN updated_at timestamp NOT NULL DEFAULT now();
-ALTER TABLE "locations" ADD COLUMN updated_at timestamp NOT NULL DEFAULT now();
-ALTER TABLE "workouts" ADD COLUMN updated_at timestamp NOT NULL DEFAULT now();
-ALTER TABLE "verbals" ADD COLUMN updated_at timestamp NOT NULL DEFAULT now();
-ALTER TABLE "results" ADD COLUMN updated_at timestamp NOT NULL DEFAULT now();
-ALTER TABLE "events" ADD COLUMN updated_at timestamp NOT NULL DEFAULT now();
-
 -- Define the function to set the "updated_at" column
 CREATE OR REPLACE FUNCTION set_updated_at_column() 
 RETURNS TRIGGER AS $$
