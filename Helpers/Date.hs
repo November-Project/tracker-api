@@ -2,6 +2,8 @@ module Helpers.Date
   ( parseGregorianDate
   , parseTimeOfDay
   , recurringDays
+  , weekOfMonth
+  , dayOfWeek
   ) where 
 
 import ClassyPrelude.Yesod
@@ -25,23 +27,23 @@ recurringDays daysOfWeek week startDay endDay = filterWeekFromDays week validDay
 
 filterWeekFromDays :: Int -> [Day] -> [Day]
 filterWeekFromDays week days
-  | week > 0 = filter (validateWeek . weekDayOfMonth) days
-  | week < 0 = filter (validateWeek . weekDayOfMonth') days
+  | week > 0 = filter (validateWeek . weekOfMonth) days
+  | week < 0 = filter (validateWeek . weekOfMonth') days
   | otherwise = days
   where validateWeek = (==week)
 
-weekDayOfMonth :: Day -> Int
-weekDayOfMonth day
+weekOfMonth :: Day -> Int
+weekOfMonth day
   | toMonth lastWeek /= month = 1
-  | otherwise = (1+) $ weekDayOfMonth lastWeek 
+  | otherwise = (1+) $ weekOfMonth lastWeek 
   where 
     month = toMonth day
     lastWeek = addDays (-7) day
 
-weekDayOfMonth' :: Day -> Int
-weekDayOfMonth' day
+weekOfMonth' :: Day -> Int
+weekOfMonth' day
   | toMonth nextWeek /= month = -1
-  | otherwise = (-1+) $ weekDayOfMonth' nextWeek 
+  | otherwise = (-1+) $ weekOfMonth' nextWeek 
   where 
     month = toMonth day
     nextWeek = addDays 7 day

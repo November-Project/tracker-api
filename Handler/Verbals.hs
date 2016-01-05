@@ -2,27 +2,36 @@ module Handler.Verbals where
 
 import Import hiding ((==.), on)
 import Database.Esqueleto hiding (Value)
+import Helpers.Date
 import Helpers.Request
+import Type.ErrorMessage
 import Type.VerbalUser
 
-getVerbalsR :: TribeId -> EventId -> Handler Value
-getVerbalsR _ eid = do
+getVerbalsR :: TribeId -> Handler Value
+getVerbalsR _ = do
   requireSession
-  vs <- runDB selectVerbals :: Handler [VerbalUser]
-  return $ object ["verbals" .= vs]
+  
+  dateString <- lookupGetParam "date"
+  let date = unpack <$> dateString >>= parseGregorianDate
+
+  case date of
+    Nothing -> sendResponseStatus status400 $ toJSON $ ErrorMessage "Date parameter required."
+    Just d -> do
+      vs <- runDB $ selectVerbals d :: Handler [VerbalUser]
+      return $ object ["verbals" .= vs]
   where
-    selectVerbals =
+    selectVerbals d =
       select $
         from $ \(v `InnerJoin` u) -> do
         on $ v ^. VerbalUser ==. u ^. UserId
-        where_ (v ^. VerbalEvent ==. val eid)
+        where_ (v ^. VerbalDate ==. val d)
         return (v, u)
 
-postVerbalsR :: TribeId -> EventId -> Handler Value
-postVerbalsR _ _ = do
+postVerbalsR :: TribeId -> Handler Value
+postVerbalsR _  = do
   verbal <- requireJsonBody :: Handler Verbal
   requireUserSession $ verbalUser verbal
-  vid <- runDB $ insert verbal
   user <- runDB $ get404 $ verbalUser verbal
-  return $ object ["verbal" .= ((Entity vid verbal, Entity (verbalUser verbal) user) :: VerbalUser)]
+  vid <- runDB $ insert verbal
+  return $ object ["verbal" .= ((Entity vid verbal, Entity (verbalUser verbal)user) :: VerbalUser)]
 

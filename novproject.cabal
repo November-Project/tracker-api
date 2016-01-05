@@ -24,6 +24,7 @@ library
                      Helpers.Mailer
                      Helpers.Facebook
                      Helpers.Date
+                     Helpers.RecurringEvent
                      Handler.All
                      Handler.Home
                      Handler.Tribes

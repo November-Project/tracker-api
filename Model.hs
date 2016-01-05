@@ -153,7 +153,7 @@ instance ToJSON TimeOfDay where
 instance FromJSON Verbal where
   parseJSON (Object o) = Verbal
     <$> o .: "user_id"
-    <*> o .: "event_id"
+    <*> o .: "date"
 
   parseJSON _ = mzero
 

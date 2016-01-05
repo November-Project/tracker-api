@@ -23,8 +23,8 @@
 /tribes/#TribeId/events                               EventsR           GET POST
 /tribes/#TribeId/events/#EventId                      EventR            GET PUT DELETE
 
-/tribes/#TribeId/events/#EventId/verbals              VerbalsR          GET POST
-/tribes/#TribeId/events/#EventId/verbals/#VerbalId    VerbalR           DELETE
+/tribes/#TribeId/verbals                              VerbalsR          GET POST
+/tribes/#TribeId/verbals/#VerbalId                    VerbalR           DELETE
 
 /tribes/#TribeId/events/#EventId/results              ResultsR          GET POST
 /tribes/#TribeId/events/#EventId/results/#ResultId    ResultR           PUT DELETE

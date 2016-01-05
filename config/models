@@ -78,10 +78,10 @@ Event sql=events
 
 Verbal sql=verbals
     user UserId
-    event EventId
+    date Day
     createdAt UTCTime default=now() MigrationOnly
     updatedAt UTCTime default=now() MigrationOnly
-    UniqueVerbalUserEvent user event
+    UniqueVerbalUserEvent user date
 
 Result sql=results
     user UserId
