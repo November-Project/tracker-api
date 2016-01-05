@@ -35,6 +35,8 @@ library
                      Handler.Workout
                      Handler.Events
                      Handler.Event
+                     Handler.Recurrings
+                     Handler.Recurring
                      Handler.Verbals
                      Handler.Verbal
                      Handler.Results
@@ -51,6 +53,7 @@ library
                      Handler.UserMe
                      Handler.Reset
                      Type.EventModel
+                     Type.RecurringModel
                      Type.VerbalUser
                      Type.ResultUser
                      Type.ErrorMessage

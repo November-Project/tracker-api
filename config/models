@@ -63,18 +63,27 @@ Workout sql=workouts
 Event sql=events
     title Text Maybe
     tribe TribeId
-    date Day Maybe
+    date Day
     times [TimeOfDay]
-    recurring Bool default=false
-    week Int default=0
-    days [Int] default="'[]'"
-    hideWorkout Bool default=true
-    recurringEvent EventId Maybe
+    hideWorkout Bool
+    recurringEvent RecurringId Maybe
     location LocationId Maybe
     workout WorkoutId Maybe
     createdAt UTCTime default=now() MigrationOnly
     updatedAt UTCTime default=now() MigrationOnly
-    UniqueTribeDate tribe date !force
+    UniqueTribeDate tribe date
+
+Recurring sql=recurring
+    title Text Maybe
+    tribe TribeId
+    times [TimeOfDay]
+    week Int
+    days [Int]
+    hideWorkout Bool
+    location LocationId Maybe
+    workout WorkoutId Maybe
+    createdAt UTCTime default=now() MigrationOnly
+    updatedAt UTCTime default=now() MigrationOnly
 
 Verbal sql=verbals
     user UserId

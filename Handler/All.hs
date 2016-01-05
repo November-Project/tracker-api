@@ -8,6 +8,8 @@ module Handler.All
   , module Handler.Workout
   , module Handler.Events
   , module Handler.Event
+  , module Handler.Recurrings
+  , module Handler.Recurring
   , module Handler.Verbals
   , module Handler.Verbal
   , module Handler.Results
@@ -34,6 +36,8 @@ import Handler.Workouts
 import Handler.Workout
 import Handler.Events
 import Handler.Event
+import Handler.Recurrings
+import Handler.Recurring
 import Handler.Verbals
 import Handler.Verbal
 import Handler.Results

@@ -12,9 +12,6 @@ instance ToJSON EventModel where
     , "tribe_id"          .= eventTribe e
     , "date"              .= eventDate e
     , "times"             .= eventTimes e
-    , "recurring"         .= eventRecurring e
-    , "week"              .= eventWeek e
-    , "days"              .= eventDays e
     , "hide_workout"      .= eventHideWorkout e
     , "recurring_event"   .= eventRecurringEvent e
     , "workout"           .= w

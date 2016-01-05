@@ -118,9 +118,6 @@ instance ToJSON (Entity Event) where
     , "tribe_id"          .= eventTribe e
     , "date"              .= eventDate e
     , "times"             .= eventTimes e
-    , "recurring"         .= eventRecurring e
-    , "week"              .= eventWeek e
-    , "days"              .= eventDays e
     , "hide_workout"      .= eventHideWorkout e
     , "recurring_id"      .= eventRecurringEvent e
     , "location_id"       .= eventLocation e
@@ -131,13 +128,36 @@ instance FromJSON Event where
   parseJSON (Object o) = Event
     <$> o .:? "title" .!= Nothing
     <*> o .: "tribe_id"
-    <*> o .:? "date" .!= Nothing
+    <*> o .: "date"
     <*> o .: "times"
-    <*> o .: "recurring"
+    <*> o .: "hide_workout"
+    <*> o .:? "recurring_id" .!= Nothing
+    <*> o .:? "location_id" .!= Nothing
+    <*> o .:? "workout_id" .!= Nothing
+
+  parseJSON _ = mzero
+
+instance ToJSON (Entity Recurring) where
+  toJSON (Entity rid r) = object
+    [ "id"                .= rid
+    , "title"             .= recurringTitle r
+    , "tribe_id"          .= recurringTribe r
+    , "times"             .= recurringTimes r
+    , "week"              .= recurringWeek r
+    , "days"              .= recurringDays r
+    , "hide_workout"      .= recurringHideWorkout r
+    , "location_id"       .= recurringLocation r
+    , "workout_id"        .= recurringWorkout r
+    ]
+
+instance FromJSON Recurring where
+  parseJSON (Object o) = Recurring
+    <$> o .:? "title" .!= Nothing
+    <*> o .: "tribe_id"
+    <*> o .: "times"
     <*> o .: "week"
     <*> o .: "days"
     <*> o .: "hide_workout"
-    <*> o .:? "recurring_id" .!= Nothing
     <*> o .:? "location_id" .!= Nothing
     <*> o .:? "workout_id" .!= Nothing
 
