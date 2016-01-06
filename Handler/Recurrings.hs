@@ -1,9 +1,12 @@
 module Handler.Recurrings where
 
 import Import
+import Data.List (foldl)
 import qualified Database.Esqueleto as ES
 import Helpers.Request
+import Helpers.Date
 import Type.RecurringModel
+import Type.ErrorMessage
 
 getRecurringsR :: TribeId -> Handler Value
 getRecurringsR tid = do
@@ -24,7 +27,15 @@ postRecurringsR :: TribeId -> Handler Value
 postRecurringsR tid = do
   requireTribeAdmin tid
 
-  recurring <- requireJsonBody :: Handler Recurring
-  -- TODO: check for schedule clash
-  rid <- runDB $ insert recurring
-  sendResponseStatus status201 $ object ["recurring" .= Entity rid recurring]
+  r <- requireJsonBody :: Handler Recurring
+  rs <- runDB $ selectList [RecurringTribe ==. tid] []
+  
+  let doesConflict = foldl (\a x -> a || doesScheduleConflict (schedule r) (schedule x)) False $ map entityVal rs
+  
+  if doesConflict
+    then return $ toJSON $ ErrorMessage "Schedule conflicts with other recurring events."
+    else do
+      rid <- runDB $ insert r
+      sendResponseStatus status201 $ object ["recurring" .= Entity rid r]
+  where
+    schedule r = (recurringWeek r, recurringDays r)

@@ -1,13 +1,15 @@
 module Helpers.Date
   ( parseGregorianDate
   , parseTimeOfDay
+  , doesScheduleConflict
 --  , recurringDays
 --  , weekOfMonth
 --  , dayOfWeek
   ) where 
 
-import ClassyPrelude.Yesod
+import ClassyPrelude.Yesod hiding (intersect)
 import Data.Time
+import Data.List (intersect)
 --import Data.Time.Calendar.OrdinalDate (sundayStartWeek)
 
 parseGregorianDate :: Monad m => String -> m Day
@@ -17,6 +19,11 @@ parseTimeOfDay :: (Monad m, Alternative m) => String -> m TimeOfDay
 parseTimeOfDay s = parse "%k:%M" s
                    <|> parse "%l:%M %p" s
                    where parse = parseTimeM True defaultTimeLocale
+
+doesScheduleConflict :: (Int, [Int]) -> (Int, [Int]) -> Bool
+doesScheduleConflict (wl, dsl) (wr, dsr)
+  | wl == wr = True
+  | otherwise = null $ dsl `intersect` dsr
 
 --recurringDays :: [Int] -> Int -> Day -> Day -> [Day]
 --recurringDays daysOfWeek week startDay endDay = filterWeekFromDays week validDays
