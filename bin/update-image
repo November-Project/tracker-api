@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+if [ "$(uname)" = Darwin ]; then
+  docker-machine start dev || true
+  eval "$(docker-machine env dev)"
+fi
+
+docker build --rm -t tonyd256/novproject .
+docker tag -f tonyd256/novproject tonyd256/novproject:latest
+docker push tonyd256/novproject

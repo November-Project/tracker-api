@@ -3,7 +3,7 @@ db:
   ports:
    - "5432"
 web:
-  build: .
+  image: tonyd256/novproject:latest
   command: yesod devel
   env_file: .env
   environment:
@@ -25,4 +25,3 @@ web:
    - "3000:3000"
   links:
    - db
-
