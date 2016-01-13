@@ -120,6 +120,7 @@ library
                  , wai-cors
                  , wai
                  , file-embed
+                 , tz
 
     -- see https://github.com/yesodweb/yesod/issues/814
     if !os(windows)
