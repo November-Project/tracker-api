@@ -119,7 +119,6 @@ instance ToJSON (Entity Event) where
     , "date"              .= eventDate e
     , "times"             .= eventTimes e
     , "hide_workout"      .= eventHideWorkout e
-    , "recurring_id"      .= eventRecurringEvent e
     , "location_id"       .= eventLocation e
     , "workout_id"        .= eventWorkout e
     ]
@@ -131,7 +130,6 @@ instance FromJSON Event where
     <*> o .: "date"
     <*> o .: "times"
     <*> o .: "hide_workout"
-    <*> o .:? "recurring_id" .!= Nothing
     <*> o .:? "location_id" .!= Nothing
     <*> o .:? "workout_id" .!= Nothing
 

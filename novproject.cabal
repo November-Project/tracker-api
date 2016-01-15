@@ -24,6 +24,7 @@ library
                      Helpers.Mailer
                      Helpers.Facebook
                      Helpers.Date
+                     Helpers.TimeZone
                      Helpers.RecurringEvent
                      Handler.All
                      Handler.Home
@@ -85,8 +86,6 @@ library
     build-depends: base                          >= 4          && < 5
                  , yesod                         >= 1.4.0      && < 1.5
                  , yesod-core                    >= 1.4.0      && < 1.5
-                 , yesod-auth                    >= 1.4.0      && < 1.5
-                 , yesod-form                    >= 1.4.0      && < 1.5
                  , classy-prelude
                  , classy-prelude-conduit
                  , classy-prelude-yesod

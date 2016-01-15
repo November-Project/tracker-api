@@ -66,7 +66,6 @@ Event sql=events
     date Day
     times [TimeOfDay]
     hideWorkout Bool
-    recurringEvent RecurringId Maybe
     location LocationId Maybe
     workout WorkoutId Maybe
     createdAt UTCTime default=now() MigrationOnly

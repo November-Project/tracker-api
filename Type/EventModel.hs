@@ -13,7 +13,6 @@ instance ToJSON EventModel where
     , "date"              .= eventDate e
     , "times"             .= eventTimes e
     , "hide_workout"      .= eventHideWorkout e
-    , "recurring_event"   .= eventRecurringEvent e
     , "workout"           .= w
     , "location"          .= l
     ]
