@@ -53,6 +53,7 @@ library
                      Handler.Forgot
                      Handler.UserMe
                      Handler.Reset
+                     Handler.ProcessEvents
                      Type.EventModel
                      Type.RecurringModel
                      Type.VerbalUser

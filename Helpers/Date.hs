@@ -1,41 +1,23 @@
 module Helpers.Date
   ( parseGregorianDate
   , parseTimeOfDay
-  , doesScheduleConflict
-  , getRecurringDays
+  , weekOfMonth
+  , weekOfMonth'
+  , dayOfWeek
   ) where 
 
-import ClassyPrelude.Yesod hiding (intersect)
+import ClassyPrelude.Yesod
 import Data.Time
-import Data.List (intersect)
 import Data.Time.Calendar.OrdinalDate (sundayStartWeek)
 
+parse :: (Monad m, ParseTime t) => String -> String -> m t
+parse = parseTimeM True defaultTimeLocale
+
 parseGregorianDate :: Monad m => String -> m Day
-parseGregorianDate = parseTimeM True defaultTimeLocale "%F"
+parseGregorianDate = parse "%F"
 
 parseTimeOfDay :: (Monad m, Alternative m) => String -> m TimeOfDay
-parseTimeOfDay s = parse "%k:%M" s
-                   <|> parse "%l:%M %p" s
-                   where parse = parseTimeM True defaultTimeLocale
-
-doesScheduleConflict :: (Int, [Int]) -> (Int, [Int]) -> Bool
-doesScheduleConflict (wl, dsl) (wr, dsr)
-  | wl == wr = True
-  | otherwise = null $ dsl `intersect` dsr
-
-getRecurringDays :: [Int] -> Int -> Day -> Day -> [Day]
-getRecurringDays daysOfWeek week startDay endDay = filterWeekFromDays week validDays
-  where
-    validDays = filter isValidDay allDays
-    allDays = takeWhile (<=endDay) $ (`addDays` startDay) <$> [0..]
-    isValidDay = (`elem` daysOfWeek) . dayOfWeek
-
-filterWeekFromDays :: Int -> [Day] -> [Day]
-filterWeekFromDays week days
-  | week > 0 = filter (validateWeek . weekOfMonth) days
-  | week < 0 = filter (validateWeek . weekOfMonth') days
-  | otherwise = days
-  where validateWeek = (==week)
+parseTimeOfDay s = parse "%k:%M" s <|> parse "%l:%M %p" s
 
 weekOfMonth :: Day -> Int
 weekOfMonth day

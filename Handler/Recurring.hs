@@ -4,7 +4,7 @@ import Import
 import Data.List (foldl)
 import qualified Database.Esqueleto as ES
 import Helpers.Request
-import Helpers.Date
+import Helpers.RecurringEvent
 import Type.RecurringModel
 import Type.ErrorMessage
 

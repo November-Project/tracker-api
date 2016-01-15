@@ -34,3 +34,5 @@
 
 /tribes/#TribeId/leaders                              LeadersR          GET
 /tribes/#TribeId/leaders/#UserId                      LeaderR           POST DELETE
+
+/actions/events/process                               ProcessEventsR    POST
