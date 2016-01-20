@@ -36,7 +36,7 @@ putRecurringR tid rid = do
   let doesConflict = foldl (\a x -> a || doesScheduleConflict (schedule r) (schedule x)) False $ map entityVal rs
   
   if doesConflict
-    then return $ toJSON $ ErrorMessage "Schedule conflicts with other recurring events."
+    then sendResponseStatus status400 $ toJSON $ ErrorMessage "Schedule conflicts with other recurring events."
     else do
       runDB $ replace rid r
       return $ object ["recurring" .= (Entity rid r)]
