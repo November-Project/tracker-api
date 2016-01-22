@@ -21,7 +21,7 @@ processRecurring (Entity tid t) = do
   if notElem (dayOfWeek nowDay) (tribeDaysOfWeek t)
     then return ()
     else do
-      event <- runDB $ getBy $ UniqueTribeDate tid nowDay
+      event <- runDB $ getBy $ UniqueEventTribeDate tid nowDay
 
       -- If day is already taken, do nothing
       case event of

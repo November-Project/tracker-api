@@ -58,7 +58,7 @@ Workout sql=workouts
     tribe TribeId
     createdAt UTCTime default=now() MigrationOnly
     updatedAt UTCTime default=now() MigrationOnly
-    UniqueWorkoutTitle title
+    UniqueWorkoutTitleTribe title tribe
 
 Event sql=events
     title Text Maybe
@@ -70,7 +70,7 @@ Event sql=events
     workout WorkoutId Maybe
     createdAt UTCTime default=now() MigrationOnly
     updatedAt UTCTime default=now() MigrationOnly
-    UniqueTribeDate tribe date
+    UniqueEventTribeDate tribe date
 
 Recurring sql=recurring
     title Text Maybe
@@ -89,7 +89,7 @@ Verbal sql=verbals
     date Day
     createdAt UTCTime default=now() MigrationOnly
     updatedAt UTCTime default=now() MigrationOnly
-    UniqueVerbalUserEvent user date
+    UniqueVerbalUserDate user date
 
 Result sql=results
     user UserId
