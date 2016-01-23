@@ -49,6 +49,8 @@ data AppSettings = AppSettings
     -- ^ Copyright text to appear in the footer of the page
     , appAnalytics              :: Maybe Text
     -- ^ Google Analytics code
+    , appForceSSL               :: Bool
+    -- ^ Force all traffic to use SSL
     }
 
 instance FromJSON AppSettings where
@@ -74,6 +76,8 @@ instance FromJSON AppSettings where
 
         appCopyright              <- o .: "copyright"
         appAnalytics              <- o .:? "analytics"
+
+        appForceSSL               <- o .:? "force-ssl"        .!= (not defaultDev)
 
         return AppSettings {..}
 

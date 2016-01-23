@@ -15,8 +15,9 @@ module Application
 import Control.Monad.Logger                 (liftLoc, runLoggingT)
 import Database.Persist.Postgresql          (createPostgresqlPool, pgConnStr,
                                              pgPoolSize, runSqlPool)
-import Import
+import Import                               hiding (Request, requestHeaders, sendResponse)
 import Language.Haskell.TH.Syntax           (qLocation)
+import Network.Wai
 import Network.Wai.Handler.Warp             (Settings, defaultSettings,
                                              defaultShouldDisplayException,
                                              runSettings, setHost,
@@ -88,7 +89,19 @@ makeApplication foundation = do
 
     -- Create the WAI application and apply middlewares
     appPlain <- toWaiAppPlain foundation
-    return $ siteCors $ logWare $ defaultMiddlewaresNoLogging appPlain
+    return $ forceSSL $ siteCors $ logWare $ defaultMiddlewaresNoLogging appPlain
+
+forceSSL :: Middleware
+forceSSL = ifRequest ((shouldForceSSL &&) . not . appearsSecure) return500
+    where
+        shouldForceSSL = appForceSSL compileTimeAppSettings
+        return500 _ _ sendResponse = sendResponse resp
+        resp = responseBuilder status500 [] mempty
+
+appearsSecure :: Request -> Bool
+appearsSecure request = isSecure request || matchHeader "X-Forwarded-Proto" (== "https")
+    where
+        matchHeader h f = maybe False f $ lookup h $ requestHeaders request
 
 -- | Warp settings for the given foundation value.
 warpSettings :: App -> Settings
