@@ -87,6 +87,7 @@ Recurring sql=recurring
 Verbal sql=verbals
     user UserId
     date Day
+    tribe TribeId default=1
     createdAt UTCTime default=now() MigrationOnly
     updatedAt UTCTime default=now() MigrationOnly
     UniqueVerbalUserDate user date

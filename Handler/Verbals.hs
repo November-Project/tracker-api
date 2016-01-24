@@ -8,7 +8,7 @@ import Type.ErrorMessage
 import Type.VerbalUser
 
 getVerbalsR :: TribeId -> Handler Value
-getVerbalsR _ = do
+getVerbalsR tid = do
   requireSession
   
   dateString <- lookupGetParam "date"
@@ -25,6 +25,7 @@ getVerbalsR _ = do
         from $ \(v `InnerJoin` u) -> do
         on $ v ^. VerbalUser ==. u ^. UserId
         where_ (v ^. VerbalDate ==. val d)
+        where_ (v ^. VerbalTribe ==. val tid)
         return (v, u)
 
 postVerbalsR :: TribeId -> Handler Value
@@ -33,5 +34,5 @@ postVerbalsR _  = do
   requireUserSession $ verbalUser verbal
   user <- runDB $ get404 $ verbalUser verbal
   vid <- runDB $ insert verbal
-  return $ object ["verbal" .= ((Entity vid verbal, Entity (verbalUser verbal)user) :: VerbalUser)]
+  return $ object ["verbal" .= ((Entity vid verbal, Entity (verbalUser verbal) user) :: VerbalUser)]
 

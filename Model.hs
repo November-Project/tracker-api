@@ -172,6 +172,7 @@ instance FromJSON Verbal where
   parseJSON (Object o) = Verbal
     <$> o .: "user_id"
     <*> o .: "date"
+    <*> o .: "tribe"
 
   parseJSON _ = mzero
 

@@ -12,5 +12,6 @@ instance ToJSON VerbalUser where
     , "user_name"       .= userName u
     , "user_photo_url"  .= userPhotoUrl u
     , "date"            .= verbalDate v
+    , "tribe"           .= verbalTribe v
     ]
 
