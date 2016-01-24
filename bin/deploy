@@ -13,7 +13,7 @@ case "${1:-staging}" in
     ./bin/upload-slug
     ;;
   production)
-    heroku pipeline:promote --app novproject-staging
+    heroku pipelines:promote --app novproject-staging
     heroku restart --app novproject-production
     ;;
   *)
