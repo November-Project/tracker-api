@@ -19,6 +19,6 @@ sendForgotEmail t e = do
     body url = pure $ plainTextPart $ unlines
       [ "Please click on this link to reset your password:"
       , ""
-      , pack $ url ++ (urlEncode $ unpack $ fromStrict $ t)
+      , pack $ url ++ "?reset_token=" ++ (urlEncode $ unpack $ fromStrict $ t)
       ]
 
