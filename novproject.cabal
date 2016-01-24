@@ -121,6 +121,7 @@ library
                  , wai
                  , file-embed
                  , tz
+                 , cryptohash
 
     -- see https://github.com/yesodweb/yesod/issues/814
     if !os(windows)

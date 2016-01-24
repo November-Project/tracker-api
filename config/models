@@ -12,6 +12,7 @@ User sql=users
     forgotToken Text Maybe
     isAdmin Bool
     tribeAdmin TribeId Maybe
+    usesBcrypt Bool default=true
     createdAt UTCTime default=now() MigrationOnly
     updatedAt UTCTime default=now() MigrationOnly
     UniqueUserEmail email

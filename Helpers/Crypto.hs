@@ -1,9 +1,10 @@
 module Helpers.Crypto where
 
-import Import
+import Import hiding (hash)
 import Crypto.Random.DRBG
 import Data.ByteString.Base64
 import Crypto.BCrypt
+import Crypto.Hash
 
 getRandomToken :: Int -> IO Text
 getRandomToken n = do
@@ -19,3 +20,12 @@ encryptText s = do
 
 validateText :: Text -> Text -> Bool
 validateText p s = validatePassword (encodeUtf8 p) (encodeUtf8 s)
+
+validateMD5 :: Text -> Text -> Bool
+validateMD5 p s = encodeUtf8 p == encodeUtf8 (encryptMD5 s)
+
+encryptMD5 :: Text -> Text
+encryptMD5 = decodeUtf8 . digestToHexByteString . md5 . encodeUtf8
+
+md5 :: ByteString -> Digest MD5
+md5 = hash

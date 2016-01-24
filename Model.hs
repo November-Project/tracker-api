@@ -40,6 +40,7 @@ instance FromJSON User where
     <*> pure Nothing
     <*> pure False
     <*> pure Nothing
+    <*> pure True
 
   parseJSON _ = mzero
 
