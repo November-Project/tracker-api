@@ -17,6 +17,7 @@ web:
     - FACEBOOK_APP_ID=577189602429829
     - FACEBOOK_SECRET=c19d1f5496e39312bd090cd70f5dd5c2
     - RESET_PASSWORD_URL=http://localhost:4200/auth/reset/
+    - SELF_URL=http://192.168.99.100:3000
   stdin_open: true
 #  tty: true
   volumes:
