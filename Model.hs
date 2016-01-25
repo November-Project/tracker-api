@@ -167,7 +167,11 @@ instance FromJSON TimeOfDay where
   parseJSON _ = mzero
 
 instance ToJSON TimeOfDay where
-  toJSON (TimeOfDay h m _) = String . pack $ show h ++ ":" ++ show m
+  toJSON (TimeOfDay h m _) = String . pack $ show h ++ ":" ++ minutes
+    where
+      minutes = case m < 10 of
+        True -> "0" ++ show m
+        False -> show m
 
 instance FromJSON Verbal where
   parseJSON (Object o) = Verbal
