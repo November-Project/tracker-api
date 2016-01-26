@@ -32,8 +32,10 @@ putRecurringR tid rid = do
 
   r <- requireJsonBody :: Handler Recurring
   rs <- runDB $ selectList [RecurringTribe ==. tid] []
-  
-  let doesConflict = foldl (\a x -> a || doesScheduleConflict (schedule r) (schedule x)) False $ map entityVal rs
+  oldr <- runDB $ get404 rid
+
+  let isDifferent = schedule r /= schedule oldr
+  let doesConflict = (isDifferent &&) $ foldl (\a x -> a || doesScheduleConflict (schedule r) (schedule x)) False $ map entityVal rs
   
   if doesConflict
     then sendResponseStatus status400 $ toJSON $ ErrorMessage "Schedule conflicts with other recurring events."
