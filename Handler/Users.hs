@@ -7,8 +7,8 @@ import Data.Text (concat)
 
 getUsersR :: Handler Value
 getUsersR = do
-  requireAdmin
-  
+  requireAnyAdmin
+
   term <- lookupGetParam "q"
   let ilike field val = Filter field (Left $ concat ["%", val, "%"]) (BackendSpecificFilter "ILIKE")
 

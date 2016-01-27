@@ -4,6 +4,7 @@ module Helpers.Request
   , requireUserSession
   , requireTribeAdmin
   , requireAdmin
+  , requireAnyAdmin
   , getUserFromSession
   , getSessionFromHeader
   ) where
@@ -49,6 +50,11 @@ requireAdmin :: Handler ()
 requireAdmin = do
   Entity _ u <- getUserFromSession
   unless (userIsAdmin u) $ permissionDenied ""
+
+requireAnyAdmin :: Handler ()
+requireAnyAdmin = do
+  Entity _ u <- getUserFromSession
+  unless (userIsAdmin u || (isJust $ userTribeAdmin u)) $ permissionDenied ""
 
 getSessionFromHeader :: Handler (Entity Session)
 getSessionFromHeader = do
