@@ -21,7 +21,7 @@ getUsersR = do
   return $ object ["users" .= users]
   where
     ilike field val = Filter field (Left $ concat ["%", val, "%"]) (BackendSpecificFilter "ILIKE")
-    userSearch filters = runDB $ selectList filters [] :: Handler [Entity User]
+    userSearch filters = runDB $ selectList (filters ++ [UserAcceptedTerms ==. True]) [] :: Handler [Entity User]
     searchFilters t = [UserEmail `ilike` t] ||. [UserName `ilike` t]
     tribeFilter t = [UserTribe ==. t]
 
