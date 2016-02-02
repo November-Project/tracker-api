@@ -10,13 +10,20 @@ getUsersR = do
   requireAnyAdmin
 
   term <- lookupGetParam "q"
-  let ilike field val = Filter field (Left $ concat ["%", val, "%"]) (BackendSpecificFilter "ILIKE")
+  tribe <- lookupGetParam "tribe"
+  let filters = case (term, fromPathPiece =<< tribe) of
+                  (Just searchTerm, Just tribeID) -> Just $ searchFilters searchTerm ++ tribeFilter tribeID
+                  (Just searchTerm, Nothing) -> Just $ searchFilters searchTerm
+                  (Nothing, Just tribeID) -> Just $ tribeFilter tribeID
+                  (_, _) -> Nothing
 
-  case term of
-    Just t -> do
-      users <- runDB $ selectList ([UserEmail `ilike` t] ||. [UserName `ilike` t]) [] :: Handler [Entity User]
-      return $ object ["users" .= users]
-    Nothing -> return $ object ["users" .= ()]
+  users <- maybe (pure []) userSearch filters
+  return $ object ["users" .= users]
+  where
+    ilike field val = Filter field (Left $ concat ["%", val, "%"]) (BackendSpecificFilter "ILIKE")
+    userSearch filters = runDB $ selectList filters [] :: Handler [Entity User]
+    searchFilters t = [UserEmail `ilike` t] ||. [UserName `ilike` t]
+    tribeFilter t = [UserTribe ==. t]
 
 postUsersR :: Handler Value
 postUsersR = do
