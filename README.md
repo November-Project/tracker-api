@@ -39,11 +39,11 @@ INSERT INTO tribes VALUES (default, 'Boston, MA', '[1,3,5]', 42.358431, -71.0597
 If you'd like to contribute, please look at the issues for things to do, or
 create your own issues and PRs for things you'd like fixed, improved, or added.
 Please follow the [Contributing guide] and [Code of Conduct] when contributing.
-Thank you, [contributers]!
+Thank you, [contributors]!
 
 [Contributing guide]: CONTRIBUTING.md
 [Code of Conduct]: CODE_OF_CONDUCT.md
-[contributers]: https://github.com/tonyd256/novproject-api/graphs/contributors
+[contributors]: https://github.com/november-project/tracker-api/graphs/contributors
 
 ## License
 
