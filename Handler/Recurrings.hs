@@ -28,14 +28,17 @@ postRecurringsR tid = do
   requireTribeAdmin tid
 
   r <- requireJsonBody :: Handler Recurring
-  rs <- runDB $ selectList [RecurringTribe ==. tid] []
-  
-  let doesConflict = foldl (\a x -> a || doesScheduleConflict (schedule r) (schedule x)) False $ map entityVal rs
-  
-  if doesConflict
-    then sendResponseStatus status400 $ toJSON $ ErrorMessage "Schedule conflicts with other recurring events."
+  if recurringTimes r == []
+    then sendResponseStatus status400 $ toJSON $ ErrorMessage "You must pick a time for an event."
     else do
-      rid <- runDB $ insert r
-      sendResponseStatus status201 $ object ["recurring" .= Entity rid r]
+      rs <- runDB $ selectList [RecurringTribe ==. tid] []
+
+      let doesConflict = foldl (\a x -> a || doesScheduleConflict (schedule r) (schedule x)) False $ map entityVal rs
+
+      if doesConflict
+        then sendResponseStatus status400 $ toJSON $ ErrorMessage "Schedule conflicts with other recurring events."
+        else do
+          rid <- runDB $ insert r
+          sendResponseStatus status201 $ object ["recurring" .= Entity rid r]
   where
     schedule r = (recurringWeek r, recurringDays r)

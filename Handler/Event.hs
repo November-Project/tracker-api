@@ -4,6 +4,7 @@ import Import
 import qualified Database.Esqueleto as ES
 import Helpers.Request
 import Type.EventModel
+import Type.ErrorMessage
 
 getEventR :: TribeId -> EventId -> Handler Value
 getEventR _ eid = do
@@ -26,9 +27,12 @@ putEventR :: TribeId -> EventId -> Handler Value
 putEventR tid eid = do
   requireTribeAdmin tid
 
-  e <- requireJsonBody :: Handler Event
-  runDB $ replace eid e
-  return $ object ["event" .= (Entity eid e)]
+  event <- requireJsonBody :: Handler Event
+  if eventTimes event == []
+    then sendResponseStatus status400 $ toJSON $ ErrorMessage "You must pick a time for an event."
+    else do
+      runDB $ replace eid event
+      return $ object ["event" .= Entity eid event]
 
 deleteEventR :: TribeId -> EventId -> Handler ()
 deleteEventR tid eid = do
