@@ -3,8 +3,8 @@
 set -e
 
 if [ "$(uname)" = Darwin ]; then
-  docker-machine start dev || true
-  eval "$(docker-machine env dev)"
+  docker-machine start default || true
+  eval "$(docker-machine env default)"
 fi
 
 docker build --rm -t tonyd256/novproject .
