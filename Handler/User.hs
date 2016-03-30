@@ -2,6 +2,13 @@ module Handler.User where
 
 import Import
 import Helpers.Request
+import Type.RestrictedUser
+
+getUserR :: UserId -> Handler Value
+getUserR uid = do
+  requireSession
+  u <- runDB $ get404 uid
+  return $ object ["user" .= (RestrictedUser $ Entity uid u)]
 
 putUserR :: UserId -> Handler Value
 putUserR uid = do

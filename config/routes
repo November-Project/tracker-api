@@ -5,7 +5,7 @@
 
 /users                                                UsersR            GET POST
 /user/me                                              UserMeR           GET
-/users/#UserId                                        UserR             PUT
+/users/#UserId                                        UserR             GET PUT
 /users/#UserId/verify/#String                         VerifyR           GET
 /forgot                                               ForgotR           POST
 /reset                                                ResetR            POST

@@ -59,6 +59,7 @@ library
                      Type.VerbalUser
                      Type.ResultUser
                      Type.ErrorMessage
+                     Type.RestrictedUser
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
