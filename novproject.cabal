@@ -44,6 +44,8 @@ library
                      Handler.Result
                      Handler.Users
                      Handler.User
+                     Handler.UserStats
+                     Handler.UserPrs
                      Handler.Leaders
                      Handler.Leader
                      Handler.Verify

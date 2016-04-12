@@ -16,6 +16,8 @@ module Handler.All
   , module Handler.Result
   , module Handler.Users
   , module Handler.User
+  , module Handler.UserStats
+  , module Handler.UserPrs
   , module Handler.Leaders
   , module Handler.Leader
   , module Handler.Verify
@@ -45,6 +47,8 @@ import Handler.Results
 import Handler.Result
 import Handler.Users
 import Handler.User
+import Handler.UserStats
+import Handler.UserPrs
 import Handler.Leaders
 import Handler.Leader
 import Handler.Verify
