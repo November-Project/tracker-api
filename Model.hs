@@ -192,3 +192,13 @@ instance FromJSON Result where
 
   parseJSON _ = mzero
 
+instance ToJSON (Entity Result) where
+  toJSON (Entity rid r) = object
+    [ "id"          .= rid
+    , "user_id"     .= resultUser r
+    , "event_id"    .= resultEvent r
+    , "event_time"  .= resultEventTime r
+    , "reps"        .= resultReps r
+    , "time"        .= resultTime r
+    , "pr"          .= resultPr r
+    ]

@@ -62,6 +62,7 @@ library
                      Type.ResultUser
                      Type.ErrorMessage
                      Type.RestrictedUser
+                     Type.UserPrModel
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
