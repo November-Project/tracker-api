@@ -1,35 +1,9 @@
-module Helpers.Facebook (verifyFacebookToken, getUserWithFacebookId, createOrUpdateFacebookUser) where
+module Helpers.Facebook (createOrUpdateFacebookUser) where
 
 import Import
-import System.Environment (getEnv)
 import Network.HTTP.Conduit (simpleHttp)
 import Data.Aeson (decode)
 import Database.Persist.Sql (toSqlKey)
-
-verifyFacebookToken :: String -> Handler (Maybe Text)
-verifyFacebookToken t = do
-  aid <- liftIO $ getEnv "FACEBOOK_APP_ID"
-  s <- liftIO $ getEnv "FACEBOOK_SECRET"
-  result <- liftIO $ simpleHttp $ concat [tokenVerifyURL, "?input_token=", t, "&access_token=", aid, "|", s]
-
-  maybe (invalidArgs ["token"]) (\fa -> do
-    if isValid fa
-      then return $ Just $ userId fa
-      else return Nothing) $ decode result
-  where
-    tokenVerifyURL = "https://graph.facebook.com/v2.5/debug_token"
-
-data FacebookAuthResponse = FacebookAuthResponse { isValid :: Bool, userId :: Text }
-
-instance FromJSON FacebookAuthResponse where
-  parseJSON (Object o) = FacebookAuthResponse
-    <$> ((o .: "data") >>= (.: "is_valid"))
-    <*> ((o .: "data") >>= (.: "user_id"))
-
-  parseJSON _ = mzero
-
-getUserWithFacebookId :: Text -> Handler (Maybe (Entity User))
-getUserWithFacebookId fid = runDB $ getBy $ UniqueUserFacebookId $ Just fid 
 
 createOrUpdateFacebookUser :: String -> Handler UserId
 createOrUpdateFacebookUser t = do

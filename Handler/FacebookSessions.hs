@@ -8,12 +8,7 @@ import Data.Aeson ((.:?))
 postFacebookSessionsR :: Handler Value
 postFacebookSessionsR = do
   s <- requireJsonBody :: Handler FacebookAuth
-  result <- verifyFacebookToken $ token s
-  case result of
-    Nothing -> permissionDenied "Facebook"
-    Just fid -> do
-      mu <- getUserWithFacebookId fid
-      createSession s =<< maybe (createOrUpdateFacebookUser $ token s) (\(Entity uid _) -> return uid) mu
+  createSession s =<< createOrUpdateFacebookUser (token s)
   where
     createSession s uid = do
       st <- liftIO $ getRandomToken 32
