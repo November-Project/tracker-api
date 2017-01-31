@@ -56,13 +56,16 @@ library
                      Handler.UserMe
                      Handler.Reset
                      Handler.ProcessEvents
+                     Handler.SpecialEvent
                      Type.EventModel
+                     Type.EventResultsModel
                      Type.RecurringModel
                      Type.VerbalUser
                      Type.ResultUser
                      Type.ErrorMessage
                      Type.RestrictedUser
                      Type.UserPrModel
+                     Type.Tag
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

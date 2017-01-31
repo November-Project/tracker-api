@@ -52,5 +52,5 @@ processRecurring (Entity tid t) = do
       | otherwise = compare (recurringWeek rhs) (recurringWeek lhs)
     createEvent nowDay Recurring{..} = Event
       recurringTitle recurringTribe nowDay recurringTimes
-      recurringHideWorkout recurringLocation recurringWorkout
+      recurringHideWorkout recurringLocation recurringWorkout recurringTags
 

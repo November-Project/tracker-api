@@ -6,6 +6,7 @@ import Database.Persist.Quasi
 import Data.Aeson ((.:?), (.!=))
 import Data.Time (TimeOfDay(..))
 import Helpers.Date
+import Type.Tag
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"]
     $(persistFileWith lowerCaseSettings "config/models")
@@ -112,6 +113,13 @@ instance FromJSON Workout where
 
   parseJSON _ = mzero
 
+instance ToJSON Tag where
+  toJSON (Tag slug) = String slug
+
+instance FromJSON Tag where
+  parseJSON (String s) = pure $ Tag s
+  parseJSON _          = mzero
+
 instance ToJSON (Entity Event) where
   toJSON (Entity eid e) = object
     [ "id"                .= eid
@@ -122,6 +130,7 @@ instance ToJSON (Entity Event) where
     , "hide_workout"      .= eventHideWorkout e
     , "location_id"       .= eventLocation e
     , "workout_id"        .= eventWorkout e
+    , "tags"              .= eventTags e
     ]
 
 instance FromJSON Event where
@@ -133,6 +142,7 @@ instance FromJSON Event where
     <*> o .: "hide_workout"
     <*> o .:? "location_id" .!= Nothing
     <*> o .:? "workout_id" .!= Nothing
+    <*> o .:? "tags" .!= []
 
   parseJSON _ = mzero
 
@@ -147,6 +157,7 @@ instance ToJSON (Entity Recurring) where
     , "hide_workout"      .= recurringHideWorkout r
     , "location_id"       .= recurringLocation r
     , "workout_id"        .= recurringWorkout r
+    , "tags"              .= recurringTags r
     ]
 
 instance FromJSON Recurring where
@@ -159,6 +170,7 @@ instance FromJSON Recurring where
     <*> o .: "hide_workout"
     <*> o .:? "location_id" .!= Nothing
     <*> o .:? "workout_id" .!= Nothing
+    <*> o .:? "tags" .!= []
 
   parseJSON _ = mzero
 

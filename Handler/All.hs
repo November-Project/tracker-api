@@ -28,6 +28,7 @@ module Handler.All
   , module Handler.UserMe
   , module Handler.Reset
   , module Handler.ProcessEvents
+  , module Handler.SpecialEvent
   ) where
 
 import Handler.Home
@@ -59,4 +60,5 @@ import Handler.Forgot
 import Handler.UserMe
 import Handler.Reset
 import Handler.ProcessEvents
+import Handler.SpecialEvent
 

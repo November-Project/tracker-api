@@ -37,4 +37,6 @@
 /tribes/#TribeId/leaders                              LeadersR          GET
 /tribes/#TribeId/leaders/#UserId                      LeaderR           POST DELETE
 
+/special_events/#Tag                                  SpecialEventR     GET
+
 /actions/events/process                               ProcessEventsR    POST

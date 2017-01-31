@@ -1,12 +1,13 @@
 {-# OPTIONS_GHC -fno-warn-orphans #-}
-module Type.EventModel where
+module Type.EventResultsModel where
 
 import Import hiding (Value)
+import Type.ResultUser
 
-type EventModel = (Entity Event, Maybe (Entity Workout), Maybe (Entity Location))
+type EventResultsModel = (Entity Event, Entity Workout, Entity Location, [ResultUser])
 
-instance ToJSON EventModel where
-  toJSON (Entity eid e, w, l) = object
+instance ToJSON EventResultsModel where
+  toJSON (Entity eid e, w, l, rs) = object
     [ "id"                .= eid
     , "title"             .= eventTitle e
     , "tribe_id"          .= eventTribe e
@@ -16,5 +17,6 @@ instance ToJSON EventModel where
     , "tags"              .= eventTags e
     , "workout"           .= w
     , "location"          .= l
+    , "results"           .= rs
     ]
 
