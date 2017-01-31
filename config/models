@@ -69,7 +69,7 @@ Event sql=events
     hideWorkout Bool
     location LocationId Maybe
     workout WorkoutId Maybe
-    tags [Tag]
+    tags [Tag] default="'[]'"
     createdAt UTCTime default=now() MigrationOnly
     updatedAt UTCTime default=now() MigrationOnly
     UniqueEventTribeDate tribe date
@@ -83,7 +83,7 @@ Recurring sql=recurring
     hideWorkout Bool
     location LocationId Maybe
     workout WorkoutId Maybe
-    tags [Tag]
+    tags [Tag] default="'[]'"
     createdAt UTCTime default=now() MigrationOnly
     updatedAt UTCTime default=now() MigrationOnly
 
