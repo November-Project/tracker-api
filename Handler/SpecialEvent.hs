@@ -28,10 +28,10 @@ getSpecialEventR (Tag tag) = do
 
 getResultsForEvent :: EventModel -> Handler EventResultsModel
 getResultsForEvent (e, w, l) = do
-  results <- runDB $ selectResults e
+  results <- runDB selectResults
   return (e, fromJust w, fromJust l, results)
   where
-    selectResults e =
+    selectResults =
       ES.select $
         ES.from $ \(r `ES.InnerJoin` u) -> do
         ES.on $ r ES.^. ResultUser ES.==. u ES.^. UserId
