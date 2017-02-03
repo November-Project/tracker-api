@@ -11,6 +11,7 @@ instance ToJSON ResultUser where
     , "user_id"         .= uid
     , "user_name"       .= userName u
     , "user_photo_url"  .= userPhotoUrl u
+    , "user_gender"     .= userGender u
     , "event_id"        .= resultEvent r
     , "event_time"      .= resultEventTime r
     , "reps"            .= resultReps r
