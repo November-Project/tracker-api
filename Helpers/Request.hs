@@ -7,6 +7,7 @@ module Helpers.Request
   , requireAnyAdmin
   , getUserFromSession
   , getSessionFromHeader
+  , getAuth0TokenFromHeader
   ) where
 
 import Import
@@ -60,6 +61,10 @@ getSessionFromHeader :: Handler (Entity Session)
 getSessionFromHeader = do
   t <- lookupUtf8Header "AUTHORIZATION" `orElse` notAuthenticated
   (runDB $ getBy $ UniqueSessionToken t) `orElse` notAuthenticated
+
+getAuth0TokenFromHeader :: Handler (Entity Session)
+getAuth0TokenFromHeader =
+  lookupUtf8Header "AUTH0-TOKEN" `orElse` notAuthenticated
 
 getUserFromSession :: Handler (Entity User)
 getUserFromSession = do

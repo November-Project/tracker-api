@@ -5,6 +5,7 @@
 
 /users                                                UsersR            GET POST
 /user/me                                              UserMeR           GET
+/user/auth0                                           UserAuth0R        GET
 /users/#UserId                                        UserR             GET PUT
 /users/#UserId/stats                                  UserStatsR        GET
 /users/#UserId/prs                                    UserPrsR          GET
