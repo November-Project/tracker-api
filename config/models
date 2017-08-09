@@ -18,15 +18,6 @@ User sql=users
     UniqueUserEmail email
     UniqueUserFacebookId facebookId !force
 
-Session sql=sessions
-    user UserId
-    token Text
-    deviceInfo Text Maybe
-    expired Bool default=false
-    createdAt UTCTime default=now() MigrationOnly
-    updatedAt UTCTime default=now() MigrationOnly
-    UniqueSessionToken token
-
 Tribe sql=tribes
     title Text
     daysOfWeek [Int] default="'[3]'"

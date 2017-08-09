@@ -1,21 +1,11 @@
-/home                                                 HomeR             GET
-
 /tribes                                               TribesR           GET POST
 /tribes/#TribeId                                      TribeR            GET PUT
 
 /users                                                UsersR            GET POST
 /user/me                                              UserMeR           GET
-/user/auth0                                           UserAuth0R        GET
 /users/#UserId                                        UserR             GET PUT
 /users/#UserId/stats                                  UserStatsR        GET
 /users/#UserId/prs                                    UserPrsR          GET
-/users/#UserId/verify/#String                         VerifyR           GET
-/forgot                                               ForgotR           POST
-/reset                                                ResetR            POST
-
-/session/facebook                                     FacebookSessionsR POST
-/session/email                                        EmailSessionsR    POST
-/sessions                                             SessionR          DELETE
 
 /tribes/#TribeId/locations                            LocationsR        GET POST
 /tribes/#TribeId/locations/#LocationId                LocationR         GET PUT

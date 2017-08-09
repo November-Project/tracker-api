@@ -1,6 +1,5 @@
 module Handler.All
-  ( module Handler.Home
-  , module Handler.Tribes
+  ( module Handler.Tribes
   , module Handler.Tribe
   , module Handler.Locations
   , module Handler.Location
@@ -20,18 +19,11 @@ module Handler.All
   , module Handler.UserPrs
   , module Handler.Leaders
   , module Handler.Leader
-  , module Handler.Verify
-  , module Handler.FacebookSessions
-  , module Handler.EmailSessions
-  , module Handler.Session
-  , module Handler.Forgot
   , module Handler.UserMe
-  , module Handler.Reset
   , module Handler.ProcessEvents
   , module Handler.SpecialEvent
   ) where
 
-import Handler.Home
 import Handler.Tribes
 import Handler.Tribe
 import Handler.Locations
@@ -52,13 +44,7 @@ import Handler.UserStats
 import Handler.UserPrs
 import Handler.Leaders
 import Handler.Leader
-import Handler.Verify
-import Handler.FacebookSessions
-import Handler.EmailSessions
-import Handler.Session
-import Handler.Forgot
 import Handler.UserMe
-import Handler.Reset
 import Handler.ProcessEvents
 import Handler.SpecialEvent
 

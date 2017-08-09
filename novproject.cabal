@@ -27,7 +27,6 @@ library
                      Helpers.TimeZone
                      Helpers.RecurringEvent
                      Handler.All
-                     Handler.Home
                      Handler.Tribes
                      Handler.Tribe
                      Handler.Locations
@@ -48,13 +47,7 @@ library
                      Handler.UserPrs
                      Handler.Leaders
                      Handler.Leader
-                     Handler.Verify
-                     Handler.FacebookSessions
-                     Handler.EmailSessions
-                     Handler.Session
-                     Handler.Forgot
                      Handler.UserMe
-                     Handler.Reset
                      Handler.ProcessEvents
                      Handler.SpecialEvent
                      Type.EventModel
