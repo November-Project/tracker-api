@@ -17,3 +17,4 @@ backup/
 ..bfg-report
 excludes.txt
 .env
+.stack-work

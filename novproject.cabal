@@ -135,4 +135,4 @@ executable         novproject
     hs-source-dirs:    app
     build-depends:     base, novproject
 
-    ghc-options:       -threaded -O2 -rtsopts -with-rtsopts=-N
+    ghc-options:       -threaded -O2 -rtsopts -with-rtsopts=-N -Wall

@@ -4,8 +4,6 @@ module Model where
 import ClassyPrelude.Yesod
 import Database.Persist.Quasi
 import Data.Aeson ((.:?), (.!=))
-import Data.Time (TimeOfDay(..))
-import Helpers.Date
 import Type.Tag
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"]
@@ -173,17 +171,6 @@ instance FromJSON Recurring where
     <*> o .:? "tags" .!= []
 
   parseJSON _ = mzero
-
-instance FromJSON TimeOfDay where
-  parseJSON (String s) = parseTimeOfDay $ unpack s
-  parseJSON _ = mzero
-
-instance ToJSON TimeOfDay where
-  toJSON (TimeOfDay h m _) = String . pack $ show h ++ ":" ++ minutes
-    where
-      minutes = case m < 10 of
-        True -> "0" ++ show m
-        False -> show m
 
 instance FromJSON Verbal where
   parseJSON (Object o) = Verbal

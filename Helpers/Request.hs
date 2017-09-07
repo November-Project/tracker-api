@@ -13,6 +13,9 @@ module Helpers.Request
 import Import
 import Network.Wai (Middleware)
 import Network.Wai.Middleware.Cors
+import Control.Monad.Except (runExceptT)
+import Network.HTTP.Conduit (simpleHttp)
+import Crypto.JOSE.JWS
 
 lookupUtf8Header :: HeaderName -> Handler (Maybe Text)
 lookupUtf8Header headerName = return . fmap decodeUtf8 =<< lookupHeader headerName
@@ -57,14 +60,16 @@ requireAnyAdmin = do
   Entity _ u <- getUserFromSession
   unless (userIsAdmin u || (isJust $ userTribeAdmin u)) $ permissionDenied ""
 
-getSessionFromHeader :: Handler (Entity Session)
+getSessionFromHeader :: Handler (Entity User)
 getSessionFromHeader = do
   t <- lookupUtf8Header "AUTHORIZATION" `orElse` notAuthenticated
-  (runDB $ getBy $ UniqueSessionToken t) `orElse` notAuthenticated
-
-getAuth0TokenFromHeader :: Handler (Entity Session)
-getAuth0TokenFromHeader =
-  lookupUtf8Header "AUTH0-TOKEN" `orElse` notAuthenticated
+  jwks <- liftIO $ simpleHttp "https://novproject.auth0.com/.well-known/jwks.json"
+  maybe (notAuthenticated) (\keys->
+      result <- runExceptT $ verifyClaims defaultJWTValidationSettings (keys :: JWKSet) t
+      case result of
+        Left _ -> notAuthenticated
+        Right claims -> undefined
+  ) $ decode jwks
 
 getUserFromSession :: Handler (Entity User)
 getUserFromSession = do
