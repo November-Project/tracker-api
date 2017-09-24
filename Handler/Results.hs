@@ -8,8 +8,9 @@ import Type.ResultUser
 getResultsR :: TribeId -> EventId -> Handler Value
 getResultsR _ eid = do
   requireSession
-  rs <- runDB selectResults :: Handler [ResultUser]
-  return $ object ["results" .= rs]
+  rs <- runDB selectResults :: Handler [ResultUserTuple]
+  let models = fmap (\(r, u)-> ResultUserModel r u) rs
+  return $ object ["results" .= models]
   where
     selectResults =
       select $
@@ -27,6 +28,6 @@ postResultsR _ _ = do
   rid <- runDB $ insert r
   u <- runDB $ get404 uid
 
-  let result = (Entity rid r, Entity uid u) :: ResultUser
+  let result = ResultUserModel (Entity rid r) (Entity uid u)
   sendResponseStatus status201 $ object ["result" .= result]
 

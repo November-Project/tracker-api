@@ -3,10 +3,11 @@ module Type.EventModel where
 
 import Import hiding (Value)
 
-type EventModel = (Entity Event, Maybe (Entity Workout), Maybe (Entity Location))
+type EventTuple = (Entity Event, Maybe (Entity Workout), Maybe (Entity Location))
+data EventModel = EventModel (Entity Event) (Maybe (Entity Workout)) (Maybe (Entity Location))
 
 instance ToJSON EventModel where
-  toJSON (Entity eid e, w, l) = object
+  toJSON (EventModel (Entity eid e) w l) = object
     [ "id"                .= eid
     , "title"             .= eventTitle e
     , "tribe_id"          .= eventTribe e

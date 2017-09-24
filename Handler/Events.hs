@@ -18,8 +18,9 @@ getEventsR tid = do
   let startDate = fromMaybe now $ unpack <$> startTimeString >>= parseGregorianDate
   let endDate = fromMaybe now $ unpack <$> endTimeString >>= parseGregorianDate
 
-  events <- runDB $ findEvents startDate endDate :: Handler [EventModel]
-  return $ object ["events" .= events]
+  events <- runDB $ findEvents startDate endDate :: Handler [EventTuple]
+  let models = fmap (\(e, w, l)-> EventModel e w l) events
+  return $ object ["events" .= models]
   where
     findEvents stime etime = do
       ES.select $

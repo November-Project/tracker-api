@@ -17,8 +17,9 @@ getVerbalsR tid = do
   case date of
     Nothing -> sendResponseStatus status400 $ toJSON $ ErrorMessage "Date parameter required."
     Just d -> do
-      vs <- runDB $ selectVerbals d :: Handler [VerbalUser]
-      return $ object ["verbals" .= vs]
+      vs <- runDB $ selectVerbals d :: Handler [VerbalUserTuple]
+      let models = fmap (uncurry VerbalUserModel) vs
+      return $ object ["verbals" .= models]
   where
     selectVerbals d =
       select $
@@ -34,5 +35,5 @@ postVerbalsR _  = do
   requireUserSession $ verbalUser verbal
   user <- runDB $ get404 $ verbalUser verbal
   vid <- runDB $ insert verbal
-  return $ object ["verbal" .= ((Entity vid verbal, Entity (verbalUser verbal) user) :: VerbalUser)]
+  return $ object ["verbal" .= (VerbalUserModel (Entity vid verbal) (Entity (verbalUser verbal) user))]
 

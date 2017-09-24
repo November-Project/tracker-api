@@ -3,10 +3,11 @@ module Type.ResultUser where
 
 import Import
 
-type ResultUser = (Entity Result, Entity User)
+type ResultUserTuple = (Entity Result, Entity User)
+data ResultUserModel = ResultUserModel (Entity Result) (Entity User)
 
-instance ToJSON ResultUser where
-  toJSON (Entity rid r, Entity uid u) = object
+instance ToJSON ResultUserModel where
+  toJSON (ResultUserModel (Entity rid r) (Entity uid u)) = object
     [ "id"              .= rid
     , "user_id"         .= uid
     , "user_name"       .= userName u

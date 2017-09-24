@@ -15,7 +15,10 @@ putUserR uid = do
   requireUserSession uid
   u <- requireJsonBody :: Handler User
   runDB $ update uid
-    [ UserTribe         =. userTribe u
+    [ UserName          =. userName u
+    , UserGender        =. userGender u
+    , UserPhotoUrl      =. userPhotoUrl u
+    , UserTribe         =. userTribe u
     , UserAcceptedTerms =. userAcceptedTerms u
     ]
   return $ object ["user" .= Entity uid u]

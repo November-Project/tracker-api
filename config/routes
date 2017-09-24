@@ -1,7 +1,7 @@
 /tribes                                               TribesR           GET POST
 /tribes/#TribeId                                      TribeR            GET PUT
 
-/users                                                UsersR            GET POST
+/users                                                UsersR            GET
 /user/me                                              UserMeR           GET
 /users/#UserId                                        UserR             GET PUT
 /users/#UserId/stats                                  UserStatsR        GET

@@ -6,19 +6,18 @@ module Helpers.Request
   , requireAdmin
   , requireAnyAdmin
   , getUserFromSession
-  , getSessionFromHeader
-  , getAuth0TokenFromHeader
   ) where
 
 import Import
+import Control.Monad.Except (runExceptT)
+import Control.Lens ((^.), (^?))
+import Crypto.JWT
+import qualified Data.ByteString.Lazy as L
+import Data.Aeson (decode)
+import Database.Persist.Sql (toSqlKey)
+import Network.HTTP.Conduit (simpleHttp)
 import Network.Wai (Middleware)
 import Network.Wai.Middleware.Cors
-import Control.Monad.Except (runExceptT)
-import Network.HTTP.Conduit (simpleHttp)
-import Crypto.JOSE.JWS
-
-lookupUtf8Header :: HeaderName -> Handler (Maybe Text)
-lookupUtf8Header headerName = return . fmap decodeUtf8 =<< lookupHeader headerName
 
 siteCorsResourcePolicy :: CorsResourcePolicy
 siteCorsResourcePolicy = CorsResourcePolicy
@@ -36,14 +35,12 @@ siteCors :: Middleware
 siteCors = cors $ const $ Just siteCorsResourcePolicy
 
 requireSession :: Handler ()
-requireSession = do
-  _ <- getSessionFromHeader
-  return ()
+requireSession = void getClaimsFromHeader
 
 requireUserSession :: UserId -> Handler ()
 requireUserSession uid = do
-  Entity _ s <- getSessionFromHeader
-  unless (sessionUser s == uid) $ permissionDenied ""
+  Entity i _ <- getUserFromSession
+  unless (i == uid) $ permissionDenied ""
 
 requireTribeAdmin :: TribeId -> Handler ()
 requireTribeAdmin tid = do
@@ -60,22 +57,28 @@ requireAnyAdmin = do
   Entity _ u <- getUserFromSession
   unless (userIsAdmin u || (isJust $ userTribeAdmin u)) $ permissionDenied ""
 
-getSessionFromHeader :: Handler (Entity User)
-getSessionFromHeader = do
-  t <- lookupUtf8Header "AUTHORIZATION" `orElse` notAuthenticated
+getClaimsFromHeader :: Handler ClaimsSet
+getClaimsFromHeader = do
+  t <- L.fromStrict <$> lookupHeader "AUTHORIZATION" `orElse` notAuthenticated
   jwks <- liftIO $ simpleHttp "https://novproject.auth0.com/.well-known/jwks.json"
-  maybe (notAuthenticated) (\keys->
-      result <- runExceptT $ verifyClaims defaultJWTValidationSettings (keys :: JWKSet) t
-      case result of
-        Left _ -> notAuthenticated
-        Right claims -> undefined
-  ) $ decode jwks
+  maybe notAuthenticated (\k-> do
+    result <- runExceptT $ verifyClaims (defaultJWTValidationSettings (== "bob")) (k :: JWKSet) =<< (decodeCompact t)
+    case result of
+      Left e -> print (e :: JWTError) >> notAuthenticated
+      Right claims -> return claims
+    ) $ decode jwks
+
+getUserIdFromClaims :: Handler UserId
+getUserIdFromClaims = do
+  claims <- getClaimsFromHeader
+  let muid = readMay =<< (^? string) =<< claims ^. claimSub :: Maybe Int64
+  maybe (permissionDenied "") (return . toSqlKey) muid
 
 getUserFromSession :: Handler (Entity User)
 getUserFromSession = do
-  Entity _ s <- getSessionFromHeader
-  mu <- runDB $ get $ sessionUser s
-  maybe notAuthenticated (\u -> return $ Entity (sessionUser s) u) mu
+  uid <- getUserIdFromClaims
+  mu <- runDB $ get uid
+  maybe notAuthenticated (return . Entity uid) mu
 
 orElse :: (Handler (Maybe a)) -> Handler a -> Handler a
 a `orElse` f = do

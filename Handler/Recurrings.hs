@@ -12,8 +12,9 @@ getRecurringsR :: TribeId -> Handler Value
 getRecurringsR tid = do
   requireSession
 
-  recurrings <- runDB findRecurrings :: Handler [RecurringModel]
-  return $ object ["recurrings" .= recurrings]
+  recurrings <- runDB findRecurrings :: Handler [RecurringTuple]
+  let models = fmap (\(r, w, l)-> RecurringModel r w l) recurrings
+  return $ object ["recurrings" .= models]
   where
     findRecurrings = 
       ES.select $

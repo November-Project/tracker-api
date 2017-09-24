@@ -4,10 +4,11 @@ module Type.EventResultsModel where
 import Import hiding (Value)
 import Type.ResultUser
 
-type EventResultsModel = (Entity Event, Entity Workout, Entity Location, [ResultUser])
+type EventResultsTuple = (Entity Event, Entity Workout, Entity Location, [ResultUserTuple])
+data EventResultsModel = EventResultsModel (Entity Event) (Entity Workout) (Entity Location) ([ResultUserModel])
 
 instance ToJSON EventResultsModel where
-  toJSON (Entity eid e, w, l, rs) = object
+  toJSON (EventResultsModel (Entity eid e) w l rs) = object
     [ "id"                .= eid
     , "title"             .= eventTitle e
     , "tribe_id"          .= eventTribe e

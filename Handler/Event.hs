@@ -10,10 +10,10 @@ getEventR :: TribeId -> EventId -> Handler Value
 getEventR _ eid = do
   requireSession
 
-  event <- runDB findEvent :: Handler [EventModel]
+  event <- runDB findEvent :: Handler [EventTuple]
   case event of
     [] -> sendResponseStatus status404 ()
-    (e:_) -> return $ object ["event" .= e]
+    ((e, w, l):_) -> return $ object ["event" .= EventModel e w l]
   where
     findEvent =
       ES.select $

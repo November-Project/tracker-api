@@ -12,11 +12,11 @@ getRecurringR :: TribeId -> RecurringId -> Handler Value
 getRecurringR _ rid = do
   requireSession
 
-  recurring <- runDB findRecurring :: Handler [RecurringModel]
+  recurring <- runDB findRecurring :: Handler [RecurringTuple]
 
   case recurring of
     [] -> sendResponseStatus status404 ()
-    (r:_) -> return $ object ["recurring" .= r]
+    ((r, w, l):_) -> return $ object ["recurring" .= RecurringModel r w l]
   where
     findRecurring =
       ES.select $

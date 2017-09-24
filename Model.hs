@@ -4,6 +4,7 @@ module Model where
 import ClassyPrelude.Yesod
 import Database.Persist.Quasi
 import Data.Aeson ((.:?), (.!=))
+import Data.Time (TimeOfDay(..))
 import Type.Tag
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"]

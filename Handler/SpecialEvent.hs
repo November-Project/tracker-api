@@ -7,14 +7,16 @@ import Helpers.Request
 import Type.Tag
 import Type.EventModel
 import Type.EventResultsModel
+import Type.ResultUser
 import Data.Maybe (fromJust)
 
 getSpecialEventR :: Tag -> Handler Value
 getSpecialEventR (Tag tag) = do
   requireSession
-  events <- runDB $ rawSql sqlExp [searchTag] :: Handler [EventModel]
-  eventResults <- forM events getResultsForEvent :: Handler [EventResultsModel]
-  return $ object ["events" .= eventResults]
+  events <- runDB $ rawSql sqlExp [searchTag] :: Handler [EventTuple]
+  eventResults <- forM events getResultsForEvent :: Handler [EventResultsTuple]
+  let models = fmap (\(e, w, l, rs)-> EventResultsModel e w l $ fmap (uncurry ResultUserModel) rs) eventResults
+  return $ object ["events" .= models]
   where
     sqlExp = "SELECT DISTINCT ON (events.tribe) ??, ??, ?? \
       FROM \"events\", \"workouts\", \"locations\" \
@@ -26,7 +28,7 @@ getSpecialEventR (Tag tag) = do
       ORDER BY events.tribe, events.date DESC"
     searchTag = PersistText $ "%\"" <> tag <> "\"%"
 
-getResultsForEvent :: EventModel -> Handler EventResultsModel
+getResultsForEvent :: EventTuple -> Handler EventResultsTuple
 getResultsForEvent (e, w, l) = do
   results <- runDB selectResults
   return (e, fromJust w, fromJust l, results)

@@ -3,10 +3,11 @@ module Type.VerbalUser where
 
 import Import
 
-type VerbalUser = (Entity Verbal, Entity User)
+type VerbalUserTuple = (Entity Verbal, Entity User)
+data VerbalUserModel = VerbalUserModel (Entity Verbal) (Entity User)
 
-instance ToJSON VerbalUser where
-  toJSON (Entity vid v, Entity uid u) = object
+instance ToJSON VerbalUserModel where
+  toJSON (VerbalUserModel (Entity vid v) (Entity uid u)) = object
     [ "id"              .= vid
     , "user_id"         .= uid
     , "user_name"       .= userName u

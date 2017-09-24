@@ -20,7 +20,6 @@ library
                      Settings
                      Settings.Development
                      Helpers.Request
-                     Helpers.Crypto
                      Helpers.Mailer
                      Helpers.Facebook
                      Helpers.Date
@@ -84,9 +83,9 @@ library
                 TupleSections
                 RecordWildCards
 
-    build-depends: base                          >= 4          && < 5
-                 , yesod                         >= 1.4.0      && < 1.5
-                 , yesod-core                    >= 1.4.0      && < 1.5
+    build-depends: base
+                 , yesod
+                 , yesod-core
                  , classy-prelude
                  , classy-prelude-conduit
                  , classy-prelude-yesod
@@ -97,6 +96,7 @@ library
                  , persistent-template
                  , template-haskell
                  , monad-control
+                 , mtl
                  , wai-extra
                  , yaml
                  , http-conduit
@@ -115,13 +115,13 @@ library
                  , DRBG
                  , base64-bytestring
                  , HTTP
-                 , bcrypt
                  , smtp-mail
                  , wai-cors
                  , wai
                  , file-embed
                  , tz
-                 , cryptohash
+                 , jose
+                 , lens
 
     -- see https://github.com/yesodweb/yesod/issues/814
     if !os(windows)

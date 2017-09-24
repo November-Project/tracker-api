@@ -9,8 +9,9 @@ getUserPrsR :: UserId -> Handler Value
 getUserPrsR uid = do
   requireSession
 
-  prs <- runDB findPrs :: Handler [UserPrModel]
-  return $ object ["prs" .= prs]
+  prs <- runDB findPrs :: Handler [UserPrTuple]
+  let models = fmap (\(r, e, w, l)-> UserPrModel r e w l) prs
+  return $ object ["prs" .= models]
   where
     findPrs = do
       select $

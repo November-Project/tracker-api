@@ -15,9 +15,9 @@ putResultR _ _ rid = do
     , ResultTime  =. resultTime r
     , ResultPr    =. resultPr r
     ]
-  
+
   u <- runDB $ get404 uid
-  let result = (Entity rid r, Entity uid u) :: ResultUser
+  let result = ResultUserModel (Entity rid r) (Entity uid u)
   return $ object ["result" .= result]
 
 deleteResultR :: TribeId -> EventId -> ResultId -> Handler ()
